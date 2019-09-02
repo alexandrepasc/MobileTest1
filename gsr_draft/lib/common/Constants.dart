@@ -7,7 +7,7 @@ Color appWhiteColor = Color.fromRGBO(255, 255, 255, 1.0);
 
 // Strings
 const appTitle = "Contactly";
-const pinCodeHintText = "Pin Code";
+const userNameHintText = "User Name";
 const loginButtonText = "Login";
 
 // Images
