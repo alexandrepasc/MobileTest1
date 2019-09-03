@@ -16,6 +16,7 @@ class LoginPage extends StatelessWidget {
     final userName = TextFormField(
       controller: inputController,
       keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.continueAction,
       maxLines: 1,
       autofocus: true,
       decoration: InputDecoration(
@@ -42,6 +43,7 @@ class LoginPage extends StatelessWidget {
     final password = TextFormField(
       controller: inputController,
       keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.send,
       maxLines: 1,
       obscureText: true,
       decoration: InputDecoration(
@@ -65,6 +67,19 @@ class LoginPage extends StatelessWidget {
       ),
     );
 
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {},
+        padding: EdgeInsets.all(12),
+        color: appDarkRedColor,
+        child: Text(loginButtonText, style: TextStyle(color: Colors.white)),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: appWhiteColor,
       body: Center(
@@ -77,6 +92,8 @@ class LoginPage extends StatelessWidget {
             userName,
             SizedBox(height: buttonHeight),
             password,
+            SizedBox(height: buttonHeight),
+            loginButton,
           ],
         ),
       ),

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/Login.dart';
+import 'package:gsr_draft/LoginPage.dart';
 import 'package:gsr_draft/common/Constants.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
+  final routes = <String, WidgetBuilder>{
+    loginPageTag: (context) => LoginPage(),
+    //homePageTag: (context) => HomePage(),
+  };
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -15,6 +21,7 @@ class MyApp extends StatelessWidget {
         primaryColor: appWhiteColor,
       ),
       home: LoginPage(),
+      routes: routes,
     );
   }
 }
