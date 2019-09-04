@@ -16,7 +16,6 @@ class LoginPage extends StatelessWidget {
     final userName = TextFormField(
       controller: inputController,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.continueAction,
       maxLines: 1,
       autofocus: true,
       decoration: InputDecoration(
@@ -43,7 +42,6 @@ class LoginPage extends StatelessWidget {
     final password = TextFormField(
       controller: inputController,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.send,
       maxLines: 1,
       obscureText: true,
       decoration: InputDecoration(
