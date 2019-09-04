@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/LoginPage.dart';
-import 'package:gsr_draft/common/Constants.dart';
+
+import 'LoginPage.dart';
+import 'common/Constants.dart';
 
 void main() => runApp(MyApp());
 

@@ -5,7 +5,11 @@ import 'common/Constants.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final inputController = TextEditingController();
+    final userNameController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    final FocusNode _userName = FocusNode();
+    final FocusNode _password = FocusNode();
 
     final logo = CircleAvatar(
       backgroundColor: Colors.transparent,
@@ -14,34 +18,40 @@ class LoginPage extends StatelessWidget {
     );
 
     final userName = TextFormField(
-      controller: inputController,
+      controller: userNameController,
       keyboardType: TextInputType.text,
+//      textInputAction: TextInputAction.next,
+//      focusNode: _userName,
       maxLines: 1,
       autofocus: true,
       decoration: InputDecoration(
-          hintText: userNameHintText,
-          hintStyle: TextStyle(color: Colors.black38),
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
-          ),
+        hintText: userNameHintText,
+        hintStyle: TextStyle(color: Colors.black38),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
       ),
       style: TextStyle(
         color: Colors.black,
       ),
+//      onFieldSubmitted: (term) {
+//        _fieldFocusChange(context, _userName, _password);
+//      },
     );
 
     final password = TextFormField(
-      controller: inputController,
+      controller: passwordController,
       keyboardType: TextInputType.text,
+//      focusNode: _password,
       maxLines: 1,
       obscureText: true,
       decoration: InputDecoration(
@@ -87,14 +97,35 @@ class LoginPage extends StatelessWidget {
           children: <Widget>[
             logo,
             SizedBox(height: bigRadius),
-            userName,
+            Center(
+              child: Container(
+                width: 350.0,
+                child: userName,
+              ),
+            ),
             SizedBox(height: buttonHeight),
-            password,
+            Center(
+              child: Container(
+                width: 350.0,
+                child: password,
+              ),
+            ),
             SizedBox(height: buttonHeight),
-            loginButton,
+            Center(
+              child: Container(
+                width: 250.0,
+                child: loginButton,
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 }
