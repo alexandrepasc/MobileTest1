@@ -1,8 +1,24 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 
 import 'common/Constants.dart';
+import 'model/AuthModel.dart';
+import 'service/AuthService.dart';
 
 class LoginPage extends StatelessWidget {
+  callAPI(final username, final password) {
+    AuthModel post = AuthModel(username: username, password: password);
+    createPost(post).then((response) {
+      if (response.statusCode > 200)
+        print(response.body);
+      else
+        print(response.statusCode);
+    }).catchError((error) {
+      print('error : $error');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userNameController = TextEditingController();
@@ -81,7 +97,10 @@ class LoginPage extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {},
+        onPressed: () {
+          callAPI(userNameController.text, passwordController.text);
+        },
+//          onPressed: callAPI(userNameController.text, passwordController.text),
         padding: EdgeInsets.all(12),
         color: appDarkRedColor,
         child: Text(loginButtonText, style: TextStyle(color: Colors.white)),
