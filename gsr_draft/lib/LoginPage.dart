@@ -10,7 +10,7 @@ class LoginPage extends StatelessWidget {
   callAPI(final username, final password) {
     AuthModel post = AuthModel(username: username, password: password);
     createPost(post).then((response) {
-      if (response.statusCode > 200)
+      if (response.statusCode == 200)
         print(response.body);
       else
         print(response.statusCode);
