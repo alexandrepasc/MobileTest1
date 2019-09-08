@@ -1,17 +1,23 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:gsr_draft/common/Profile.dart';
+import 'package:gsr_draft/model/TokenModel.dart' as prefix0;
 
 import 'common/Constants.dart';
 import 'model/AuthModel.dart';
+import 'model/TokenModel.dart';
 import 'service/AuthService.dart';
 
 class LoginPage extends StatelessWidget {
   callAPI(final username, final password) {
     AuthModel post = AuthModel(username: username, password: password);
     createPost(post).then((response) {
-      if (response.statusCode == 200)
+      if (response.statusCode == 200) {
         print(response.body);
+        TokenModel token = prefix0.postFromJson(response.body);
+        Profile(token: token.token);
+      }
       else
         print(response.statusCode);
     }).catchError((error) {
