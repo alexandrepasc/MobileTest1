@@ -10,11 +10,12 @@ import 'model/TokenModel.dart';
 import 'service/AuthService.dart';
 
 var feedbackController = TextEditingController();
-var isEnabled = true;
+//var isEnabled = true;
 
 class LoginPage extends StatelessWidget {
-  callAPI(final username, final password, BuildContext context) {
-    isEnabled = false;
+  Future callAPI(final username, final password, BuildContext context) async{
+    //isEnabled = false;
+    _onLoading(context);
     AuthModel post = AuthModel(username: username, password: password);
     createPost(post).then((response) {
       if (response.statusCode == 200) {
@@ -22,16 +23,60 @@ class LoginPage extends StatelessWidget {
         TokenModel token = prefix0.postFromJson(response.body);
         Profile(token: token.token);
         print(token.token);
+        Navigator.pop(context);
         Navigator.of(context).pushReplacementNamed('Dashboard Page');
       }
-      else
+      else {
         print(response.statusCode.toString());
         String aux = response.statusCode.toString();
         feedbackController.text = "Status code: $aux";
+      }
+      Navigator.pop(context);
     }).catchError((error) {
       print('error : $error');
       feedbackController.text = 'error : $error';
+      Navigator.pop(context);
     });
+
+  }
+
+  void _onLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new Container(
+          decoration: new BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: new BorderRadius.circular(10.0)
+          ),
+          width: 150.0,
+          height: 200.0,
+          alignment: AlignmentDirectional.center,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Center(
+                child: new SizedBox(
+                  height: 50.0,
+                  width: 50.0,
+                  child: new CircularProgressIndicator(
+                    value: null,
+                    strokeWidth: 7.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    /*new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.pop(context); //pop dialog
+      //_login();
+      callAPI(username, password, context);
+    });*/
   }
 
   @override
@@ -54,7 +99,7 @@ class LoginPage extends StatelessWidget {
 
     final userName = TextFormField(
       controller: userNameController,
-      enabled: isEnabled,
+      //enabled: isEnabled,
       keyboardType: TextInputType.text,
 //      textInputAction: TextInputAction.next,
 //      focusNode: _userName,
@@ -86,7 +131,7 @@ class LoginPage extends StatelessWidget {
 
     final password = TextFormField(
       controller: passwordController,
-      enabled: isEnabled,
+      //enabled: isEnabled,
       keyboardType: TextInputType.text,
 //      focusNode: _password,
       maxLines: 1,
@@ -121,7 +166,9 @@ class LoginPage extends StatelessWidget {
         onPressed: () {
           //isEnabled = false;
           FocusScope.of(context).requestFocus(new FocusNode());
+          feedbackController.text = "";
           callAPI(userNameController.text, passwordController.text, context);
+          //_onLoading(userNameController.text, passwordController.text, context);
         },
 //          onPressed: callAPI(userNameController.text, passwordController.text),
         padding: EdgeInsets.all(12),
