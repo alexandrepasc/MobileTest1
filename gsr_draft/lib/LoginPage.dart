@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:gsr_draft/DashboardPage.dart';
 import 'package:gsr_draft/common/Profile.dart';
 import 'package:gsr_draft/model/TokenModel.dart' as prefix0;
 
@@ -13,6 +14,7 @@ var feedbackController = TextEditingController();
 //var isEnabled = true;
 
 class LoginPage extends StatelessWidget {
+
   Future callAPI(final username, final password, BuildContext context) async{
     //isEnabled = false;
     _onLoading(context);
@@ -21,23 +23,23 @@ class LoginPage extends StatelessWidget {
       if (response.statusCode == 200) {
         print(response.body);
         TokenModel token = prefix0.postFromJson(response.body);
-        Profile(token: token.token);
+        Profile _profile = new Profile(token: token.token);
         print(token.token);
         Navigator.pop(context);
-        Navigator.of(context).pushReplacementNamed('Dashboard Page');
+        //Navigator.of(context).pushReplacementNamed('Dashboard Page');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(profile: _profile,),),);
       }
       else {
         print(response.statusCode.toString());
         String aux = response.statusCode.toString();
         feedbackController.text = "Status code: $aux";
+        Navigator.pop(context);
       }
-      Navigator.pop(context);
     }).catchError((error) {
       print('error : $error');
       feedbackController.text = 'error : $error';
       Navigator.pop(context);
     });
-
   }
 
   void _onLoading(BuildContext context) {
@@ -165,6 +167,7 @@ class LoginPage extends StatelessWidget {
         ),
         onPressed: () {
           //isEnabled = false;
+          //Navigator.of(context).pushReplacementNamed('Dashboard Page');
           FocusScope.of(context).requestFocus(new FocusNode());
           feedbackController.text = "";
           callAPI(userNameController.text, passwordController.text, context);
