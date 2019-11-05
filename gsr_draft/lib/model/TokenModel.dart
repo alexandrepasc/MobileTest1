@@ -10,6 +10,6 @@ class TokenModel {
   });
 
   factory TokenModel.fromJson(Map<String, dynamic> json) => new TokenModel(
-    token: json["Authentication"],
+    token: json["token"],
   );
 }

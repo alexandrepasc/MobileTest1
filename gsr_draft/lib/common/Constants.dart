@@ -21,4 +21,4 @@ const buttonHeight = 24.0;
 
 // Pages
 const loginPageTag = 'Login Page';
-const homePageTag = 'Home Page';
+const dashboardPageTag = 'Dashboard Page';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'DashboardPage.dart';
 import 'LoginPage.dart';
 import 'common/Constants.dart';
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   final routes = <String, WidgetBuilder>{
     loginPageTag: (context) => LoginPage(),
-    //homePageTag: (context) => HomePage(),
+    dashboardPageTag: (context) => DashboardPage(),
   };
 
   // This widget is the root of your application.

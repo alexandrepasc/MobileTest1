@@ -9,19 +9,28 @@ import 'model/AuthModel.dart';
 import 'model/TokenModel.dart';
 import 'service/AuthService.dart';
 
+var feedbackController = TextEditingController();
+var isEnabled = true;
+
 class LoginPage extends StatelessWidget {
-  callAPI(final username, final password) {
+  callAPI(final username, final password, BuildContext context) {
+    isEnabled = false;
     AuthModel post = AuthModel(username: username, password: password);
     createPost(post).then((response) {
       if (response.statusCode == 200) {
         print(response.body);
         TokenModel token = prefix0.postFromJson(response.body);
         Profile(token: token.token);
+        print(token.token);
+        Navigator.of(context).pushReplacementNamed('Dashboard Page');
       }
       else
-        print(response.statusCode);
+        print(response.statusCode.toString());
+        String aux = response.statusCode.toString();
+        feedbackController.text = "Status code: $aux";
     }).catchError((error) {
       print('error : $error');
+      feedbackController.text = 'error : $error';
     });
   }
 
@@ -29,6 +38,10 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userNameController = TextEditingController();
     final passwordController = TextEditingController();
+
+    feedbackController.text = "";
+    userNameController.text = "admin";
+    passwordController.text = "sup3r5dm1n";
 
     final FocusNode _userName = FocusNode();
     final FocusNode _password = FocusNode();
@@ -41,6 +54,7 @@ class LoginPage extends StatelessWidget {
 
     final userName = TextFormField(
       controller: userNameController,
+      enabled: isEnabled,
       keyboardType: TextInputType.text,
 //      textInputAction: TextInputAction.next,
 //      focusNode: _userName,
@@ -72,6 +86,7 @@ class LoginPage extends StatelessWidget {
 
     final password = TextFormField(
       controller: passwordController,
+      enabled: isEnabled,
       keyboardType: TextInputType.text,
 //      focusNode: _password,
       maxLines: 1,
@@ -104,12 +119,28 @@ class LoginPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          callAPI(userNameController.text, passwordController.text);
+          //isEnabled = false;
+          FocusScope.of(context).requestFocus(new FocusNode());
+          callAPI(userNameController.text, passwordController.text, context);
         },
 //          onPressed: callAPI(userNameController.text, passwordController.text),
         padding: EdgeInsets.all(12),
         color: appDarkRedColor,
         child: Text(loginButtonText, style: TextStyle(color: Colors.white)),
+      ),
+    );
+
+    final feedback = TextField(
+      controller: feedbackController,
+      enabled: false,
+      maxLines: null,
+      decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 0.0),
+        ),
+      ),
+      style: TextStyle(
+        color: Colors.redAccent,
       ),
     );
 
@@ -142,6 +173,12 @@ class LoginPage extends StatelessWidget {
                 child: loginButton,
               ),
             ),
+            SizedBox(height: buttonHeight),
+            Center(
+              child: Container(
+                child: feedback,
+              ),
+            )
           ],
         ),
       ),
@@ -151,6 +188,6 @@ class LoginPage extends StatelessWidget {
   _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
+    //FocusScope.of(context).requestFocus(nextFocus);
   }
 }
