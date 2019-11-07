@@ -55,22 +55,29 @@ class DashboardPage extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: appWhiteColor,
-        body: Center(
-            child: ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                children: <Widget>[
-                  logo,
-                  SizedBox(height: bigRadius),
-                  Center(
-                    child: Container(
-                      width: 350.0,
-                      child: token,
+        body: WillPopScope(
+          //Wrap out body with a `WillPopScope` widget that handles when a user is cosing current route
+          onWillPop: () async {
+            print("nop");
+            return Future.value(false); //return a `Future` with false value so this route cant be popped or closed.
+          },
+          child: Center(
+              child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                  children: <Widget>[
+                    logo,
+                    SizedBox(height: bigRadius),
+                    Center(
+                      child: Container(
+                        width: 350.0,
+                        child: token,
+                      ),
                     ),
-                  ),
-                ]
-            )
-        )
+                  ]
+              )
+          )
+        ),
     );
   }
 }
