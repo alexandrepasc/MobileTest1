@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
       if (response.statusCode == 200) {
         print(response.body);
         TokenModel token = prefix0.postFromJson(response.body);
-        Profile _profile = new Profile(token: token.token);
+        Profile _profile = new Profile(token: token.token, id: token.id);
         print(token.token);
         Navigator.pop(context);
         //Navigator.of(context).pushReplacementNamed('Dashboard Page');
