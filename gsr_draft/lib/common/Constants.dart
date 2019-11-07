@@ -20,5 +20,5 @@ const bigRadius = 80.0;
 const buttonHeight = 24.0;
 
 // Pages
-const loginPageTag = 'Login Page';
-const dashboardPageTag = 'Dashboard Page';
+//const loginPageTag = 'Login Page';
+//const dashboardPageTag = 'Dashboard Page';

@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:gsr_draft/model/AuthModel.dart';
 
-String url = '192.168.1.6:8080';
+String url = '172.17.0.3:8080';
 String endPoint = "/users/authenticate";
 
 Future<AuthModel> getPost() async{

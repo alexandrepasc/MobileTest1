@@ -1,10 +1,14 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/common/Profile.dart';
 
 import 'common/Constants.dart';
+import 'common/Profile.dart';
+import 'Locator.dart';
+import 'service/NavigationService.dart';
 
 class DashboardPage extends StatelessWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
+
   final Profile profile;
 
   DashboardPage({Key key, this.profile}) : super(key: key);

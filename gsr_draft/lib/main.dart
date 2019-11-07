@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:gsr_draft/Locator.dart';
+import 'package:gsr_draft/service/NavigationService.dart';
 
 import 'DashboardPage.dart';
-import 'LoginPage.dart';
 import 'common/Constants.dart';
+import 'common/RoutePaths.dart' as routes;
+import 'common/Router.dart' as router;
+import 'LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
 
-  final routes = <String, WidgetBuilder>{
+  /*final routes = <String, WidgetBuilder>{
     loginPageTag: (context) => LoginPage(),
-    dashboardPageTag: (context) => DashboardPage(),
-  };
+    dashboardPageTag: (context) => DashboardPage(null),
+  };*/
 
   // This widget is the root of your application.
   @override
@@ -23,7 +30,9 @@ class MyApp extends StatelessWidget {
         primaryColor: appWhiteColor,
       ),
       home: LoginPage(),
-      routes: routes,
+      onGenerateRoute: router.generateRoute,
+      initialRoute: routes.loginPageTag,
+      navigatorKey: locator<NavigationService>().navigatorKey,
     );
   }
 }

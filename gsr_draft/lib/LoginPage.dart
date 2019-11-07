@@ -1,19 +1,22 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/DashboardPage.dart';
-import 'package:gsr_draft/common/Profile.dart';
 import 'package:gsr_draft/model/TokenModel.dart' as prefix0;
 
 import 'common/Constants.dart';
+import 'common/Profile.dart';
+import 'common/RoutePaths.dart' as routes;
+import 'Locator.dart';
 import 'model/AuthModel.dart';
 import 'model/TokenModel.dart';
 import 'service/AuthService.dart';
+import 'service/NavigationService.dart';
 
 var feedbackController = TextEditingController();
 //var isEnabled = true;
 
 class LoginPage extends StatelessWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
 
   Future callAPI(final username, final password, BuildContext context) async{
     //isEnabled = false;
@@ -27,7 +30,8 @@ class LoginPage extends StatelessWidget {
         print(token.token);
         Navigator.pop(context);
         //Navigator.of(context).pushReplacementNamed('Dashboard Page');
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(profile: _profile,),),);
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(_profile),),);
+        _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
       }
       else {
         print(response.statusCode.toString());
