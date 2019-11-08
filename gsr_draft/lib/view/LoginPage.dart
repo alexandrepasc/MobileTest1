@@ -1,16 +1,18 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/model/TokenModel.dart' as prefix0;
+import 'package:gsr_draft/model/AuthModelRes.dart' as prefix0;
+import 'package:gsr_draft/model/UserModelRes.dart' as userRes;
 
-import 'common/Constants.dart';
-import 'common/Profile.dart';
-import 'common/RoutePaths.dart' as routes;
-import 'Locator.dart';
-import 'model/AuthModel.dart';
-import 'model/TokenModel.dart';
-import 'service/AuthService.dart';
-import 'service/NavigationService.dart';
+import '../common/Constants.dart';
+import '../common/Profile.dart';
+import '../common/RoutePaths.dart' as routes;
+import '../Locator.dart';
+import '../model/AuthModelReq.dart';
+import '../model/AuthModelRes.dart';
+import '../model/UserModelRes.dart';
+import '../service/AuthService.dart';
+import '../service/NavigationService.dart';
 
 var feedbackController = TextEditingController();
 //var isEnabled = true;
@@ -21,13 +23,36 @@ class LoginPage extends StatelessWidget {
   Future callAPI(final username, final password, BuildContext context) async{
     //isEnabled = false;
     _onLoading(context);
-    AuthModel post = AuthModel(username: username, password: password);
+    AuthModelReq post = AuthModelReq(username: username, password: password);
     createPost(post).then((response) {
       if (response.statusCode == 200) {
-        print(response.body);
-        TokenModel token = prefix0.postFromJson(response.body);
+        //print(response.body);
+        AuthModelRes token = prefix0.postFromJson(response.body);
         Profile _profile = new Profile(token: token.token, id: token.id);
-        print(token.token);
+        final _id = token.id;
+        final _token = token.token;
+        getPost(_id, _token).then((userResponse) {
+          if (userResponse.statusCode == 200) {
+            //print(userResponse.body);
+            UserModelRes userModel = userRes.postFromJson(userResponse.body);
+            //print(userRes.postFromJson(userResponse.body).username);
+            _profile.setUsername(userModel.username);
+            _profile.setName(userModel.name);
+            _profile.setRoles(userModel.roles);
+            //print(_profile.getRoles());
+          }
+          else {
+            String aux = response.statusCode.toString();
+            feedbackController.text = "Status code: $aux";
+            Navigator.pop(context);
+          }
+        }).catchError((error) {
+          feedbackController.text = 'error : $error';
+          Navigator.pop(context);
+        });
+        //UserModelRes user = userRes.postFromJson(str)
+        //print(token.token);
+        //print(_profile.getUsername());
         Navigator.pop(context);
         //Navigator.of(context).pushReplacementNamed('Dashboard Page');
         //Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(_profile),),);

@@ -2,18 +2,33 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:gsr_draft/model/AuthModel.dart';
+import '../common/Constants.dart';
+import '../model/AuthModelReq.dart';
 
-String url = '172.17.0.3:8080';
-String endPoint = "/users/authenticate";
+//String url = '172.17.0.3:8080';
+String authEndPoint = userEndPoint + "authenticate";
 
-Future<AuthModel> getPost() async{
-  final response = await http.get(new Uri.http("$url", "$endPoint"));
-  return postFromJson(response.body);
+//Future<AuthModelReq> getPost(String id, String token) async{
+//  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint$id"),
+//    headers: {
+//      HttpHeaders.contentTypeHeader: 'application/json',
+//      HttpHeaders.authorizationHeader : 'Bearer $token'
+//    },
+//  );
+//  return postFromJson(response.body);
+//}
+Future<http.Response> getPost(String id, String token) async{
+  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint$id"),
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader : 'Bearer $token'
+    },
+  );
+  return response;
 }
 
-Future<http.Response> createPost(AuthModel post) async{
-  final response = await http.post(new Uri.http("$url", "$endPoint"),
+Future<http.Response> createPost(AuthModelReq post) async{
+  final response = await http.post(new Uri.http("$apiUrl", "$authEndPoint"),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader : ''

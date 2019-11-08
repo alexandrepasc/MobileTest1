@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
-import '../DashboardPage.dart';
-import '../LoginPage.dart';
+import '../view/DashboardPage.dart';
+import '../view/LoginPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

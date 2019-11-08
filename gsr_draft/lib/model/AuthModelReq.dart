@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-AuthModel postFromJson(String str) => AuthModel.fromJson(json.decode(str));
+AuthModelReq postFromJson(String str) => AuthModelReq.fromJson(json.decode(str));
 
-String postToJson(AuthModel data) => json.encode(data.toJson());
+String postToJson(AuthModelReq data) => json.encode(data.toJson());
 
-class AuthModel {
+class AuthModelReq {
   String username;
   String password;
 
-  AuthModel({
+  AuthModelReq({
     this.username,
     this.password,
   });
 
-  factory AuthModel.fromJson(Map<String, dynamic> json) => new AuthModel(
+  factory AuthModelReq.fromJson(Map<String, dynamic> json) => new AuthModelReq(
     username: json["username"],
     password: json["password"],
   );

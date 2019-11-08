@@ -22,3 +22,7 @@ const buttonHeight = 24.0;
 // Pages
 //const loginPageTag = 'Login Page';
 //const dashboardPageTag = 'Dashboard Page';
+
+// API
+const apiUrl = "172.17.0.3:8080";
+const userEndPoint = "/users/";

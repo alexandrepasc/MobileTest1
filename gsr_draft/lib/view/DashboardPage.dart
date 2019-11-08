@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
-import 'common/Constants.dart';
-import 'common/Profile.dart';
-import 'Locator.dart';
-import 'service/NavigationService.dart';
+import '../common/Constants.dart';
+import '../common/Profile.dart';
+import '../Locator.dart';
+import '../service/NavigationService.dart';
 
 class DashboardPage extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -23,8 +23,12 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokenController = TextEditingController();
     final idController = TextEditingController();
+    final usernameController = TextEditingController();
+    final nameController = TextEditingController();
     tokenController.text = profile.getToken();
     idController.text = profile.getId();
+    usernameController.text = profile.getUsername();
+    nameController.text = profile.getName();
 
     final token = TextFormField(
       controller: tokenController,
@@ -84,6 +88,64 @@ class DashboardPage extends StatelessWidget {
 //      },
     );
 
+    final username = TextFormField(
+      controller: usernameController,
+      keyboardType: TextInputType.text,
+      maxLines: 1,
+      autofocus: true,
+      decoration: InputDecoration(
+        hintText: userNameHintText,
+        hintStyle: TextStyle(color: Colors.black38),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
+      ),
+      style: TextStyle(
+        color: Colors.black,
+      ),
+//      onFieldSubmitted: (term) {
+//        _fieldFocusChange(context, _userName, _password);
+//      },
+    );
+
+    final name = TextFormField(
+      controller: nameController,
+      keyboardType: TextInputType.text,
+      maxLines: 1,
+      autofocus: true,
+      decoration: InputDecoration(
+        hintText: userNameHintText,
+        hintStyle: TextStyle(color: Colors.black38),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+        ),
+      ),
+      style: TextStyle(
+        color: Colors.black,
+      ),
+//      onFieldSubmitted: (term) {
+//        _fieldFocusChange(context, _userName, _password);
+//      },
+    );
+
     return Scaffold(
         backgroundColor: appWhiteColor,
         body: WillPopScope(
@@ -109,6 +171,18 @@ class DashboardPage extends StatelessWidget {
                       child: Container(
                         width: 350.0,
                         child: id,
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 350.0,
+                        child: username,
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 350.0,
+                        child: name,
                       ),
                     ),
                   ]
