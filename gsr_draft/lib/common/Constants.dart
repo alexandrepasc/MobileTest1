@@ -7,7 +7,7 @@ Color appWhiteColor = Color.fromRGBO(255, 255, 255, 1.0);
 Color appDarkRedColor = Color.fromRGBO(170, 0, 0, 1.0);
 
 // Strings
-const appTitle = "Contactly";
+const appTitle = "Galitos Summary Register";
 const userNameHintText = "User Name";
 const passwordHintText = "Password";
 const loginButtonText = "Login";

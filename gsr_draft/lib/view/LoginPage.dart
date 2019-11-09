@@ -40,6 +40,9 @@ class LoginPage extends StatelessWidget {
             _profile.setName(userModel.name);
             _profile.setRoles(userModel.roles);
             //print(_profile.getRoles());
+
+            Navigator.pop(context);
+            _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
           }
           else {
             String aux = response.statusCode.toString();
@@ -53,10 +56,10 @@ class LoginPage extends StatelessWidget {
         //UserModelRes user = userRes.postFromJson(str)
         //print(token.token);
         //print(_profile.getUsername());
-        Navigator.pop(context);
+        //Navigator.pop(context);
         //Navigator.of(context).pushReplacementNamed('Dashboard Page');
         //Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(_profile),),);
-        _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
+        //_navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
       }
       else {
         print(response.statusCode.toString());

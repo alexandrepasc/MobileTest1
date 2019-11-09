@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:gsr_draft/component/AdminDrawer.dart';
 
 import '../common/Constants.dart';
 import '../common/Profile.dart';
@@ -18,6 +19,14 @@ class DashboardPage extends StatelessWidget {
     radius: bigRadius,
     child: appLogo,
   );
+
+  Widget drawerHead() {
+    if (profile.getRoles().contains("ROLE_ADMIN")) {
+      return adminAccountDrawerHead(profile);
+    } else {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +155,28 @@ class DashboardPage extends StatelessWidget {
 //      },
     );
 
+    final drawer = Drawer(
+      child: ListView(
+        children: <Widget>[
+          drawerHead(),
+        ],
+      ),
+    );
+
     return Scaffold(
         backgroundColor: appWhiteColor,
+        appBar: AppBar(
+          title: Text(
+            appTitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: appWhiteColor,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: appDarkRedColor,
+        ),
+        drawer: drawer,
         body: WillPopScope(
           //Wrap out body with a `WillPopScope` widget that handles when a user is cosing current route
           onWillPop: () async {
