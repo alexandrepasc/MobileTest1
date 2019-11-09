@@ -206,10 +206,10 @@ class DashboardPage extends StatelessWidget {
         drawer: drawer,
         body: WillPopScope(
           //Wrap out body with a `WillPopScope` widget that handles when a user is cosing current route
-          onWillPop: () async {
+          /*onWillPop: () async {
             print("nop");
             return Future.value(false); //return a `Future` with false value so this route cant be popped or closed.
-          },
+          },*/
           child: Center(
               child: ListView(
                   shrinkWrap: true,

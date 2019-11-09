@@ -42,7 +42,8 @@ class LoginPage extends StatelessWidget {
             //print(_profile.getRoles());
 
             Navigator.pop(context);
-            _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
+            //_navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
+            _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
           }
           else {
             String aux = response.statusCode.toString();
