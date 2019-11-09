@@ -21,3 +21,18 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
     ),
   ),
 );
+
+Widget adminCoachesButton() => ListTile(
+  title: Text(coachesTitle),
+  trailing: Icon(Icons.arrow_forward_ios),
+);
+
+Widget adminStudentsButton() => ListTile(
+  title: Text(studentsTitle),
+  trailing: Icon(Icons.arrow_forward_ios),
+);
+
+Widget adminClassesButton() => ListTile(
+  title: Text(classesTitle),
+  trailing: Icon(Icons.arrow_forward_ios),
+);

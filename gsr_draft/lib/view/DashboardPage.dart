@@ -28,6 +28,30 @@ class DashboardPage extends StatelessWidget {
     }
   }
 
+  Widget drawerCoaches() {
+    if (profile.getRoles().contains("ROLE_ADMIN")) {
+      return adminCoachesButton();
+    } else {
+
+    }
+  }
+
+  Widget drawerStudents() {
+    if (profile.getRoles().contains("ROLE_ADMIN")) {
+      return adminStudentsButton();
+    } else {
+
+    }
+  }
+
+  Widget drawerClasses() {
+    if (profile.getRoles().contains("ROLE_ADMIN")) {
+      return adminClassesButton();
+    } else {
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final tokenController = TextEditingController();
@@ -159,6 +183,9 @@ class DashboardPage extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           drawerHead(),
+          drawerCoaches(),
+          drawerStudents(),
+          drawerClasses(),
         ],
       ),
     );

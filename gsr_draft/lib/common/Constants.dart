@@ -12,6 +12,10 @@ const userNameHintText = "User Name";
 const passwordHintText = "Password";
 const loginButtonText = "Login";
 
+const coachesTitle = "Caoches list";
+const studentsTitle = "Students list";
+const classesTitle = "Classes list";
+
 // Images
 Image appLogo = Image.asset('assets/images/logo.jpg');
 
