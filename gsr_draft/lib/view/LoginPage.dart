@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
         Navigator.pop(context);
       }
     }).catchError((error) {
-      print('error : $error');
+      //print('error : $error');
       feedbackController.text = 'error : $error';
       Navigator.pop(context);
     });
@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
     final userNameController = TextEditingController();
     final passwordController = TextEditingController();
 
-    feedbackController.text = "";
+    //feedbackController.text = "";
     userNameController.text = "admin";
     passwordController.text = "sup3r5dm1n";
 
@@ -221,6 +221,7 @@ class LoginPage extends StatelessWidget {
       style: TextStyle(
         color: Colors.redAccent,
       ),
+      textAlign: TextAlign.center,
     );
 
     return Scaffold(
