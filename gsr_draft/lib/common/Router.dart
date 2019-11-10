@@ -5,6 +5,7 @@ import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../view/DashboardPage.dart';
 import '../view/LoginPage.dart';
+import '../view/SplashPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -13,6 +14,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.dashboardPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => DashboardPage(profile: _profile,));
+    case routes.splashPageTag:
+      return MaterialPageRoute(builder: (context) => SplashPage());
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(

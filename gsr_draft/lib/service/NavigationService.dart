@@ -11,6 +11,10 @@ class NavigationService {
     return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
   }
 
+  Future<dynamic> navigateToAndRemoveNoArgs(String routeName) {
+    return navigatorKey.currentState.pushReplacementNamed(routeName);
+  }
+
   bool goBack() {
     return navigatorKey.currentState.pop();
   }

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       onGenerateRoute: router.generateRoute,
-      initialRoute: routes.loginPageTag,
+      initialRoute: routes.splashPageTag,
       navigatorKey: locator<NavigationService>().navigatorKey,
     );
   }
