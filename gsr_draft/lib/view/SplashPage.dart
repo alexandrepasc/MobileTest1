@@ -93,10 +93,14 @@ class _SplashState extends State<SplashPage> {
           } else {
             _navigationService.navigateToAndRemove(routes.loginPageTag);
           }
+        }).catchError((error) {
+          _navigationService.navigateToAndRemove(routes.loginPageTag);
         });
       } else {
         _navigationService.navigateToAndRemove(routes.loginPageTag);
       }
+    }).catchError((error) {
+      _navigationService.navigateToAndRemove(routes.loginPageTag);
     });
 
     //print("funca");
