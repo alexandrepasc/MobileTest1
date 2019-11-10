@@ -1,12 +1,25 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
+import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../common/RoutePaths.dart' as routes;
+import '../Locator.dart';
+import '../service/NavigationService.dart';
 
-/*final accountDrawerHead = UserAccountsDrawerHeader(
-  accountName: ,
-);*/
+final NavigationService _navigationService = locator<NavigationService>();
+
+Widget adminDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) => Drawer(
+    child: ListView(
+        children: <Widget>[
+          drawerHead(_profile),
+          drawerCoaches(_profile, _selected, context),
+          drawerStudents(_profile, _selected, context),
+          drawerClasses(_profile, _selected, context)
+        ],
+    ),
+);
 
 Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
   accountName: Text(_profile.getName()),
@@ -22,17 +35,137 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
   ),
 );
 
-Widget adminCoachesButton() => ListTile(
-  title: Text(coachesTitle),
-  trailing: Icon(Icons.arrow_forward_ios),
+Widget adminCoachesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.coaches) {
+    return adminCoachesButton(_profile, context);
+  } else {
+    return adminCoachesButtonSelected();
+  }
+}
+
+Widget adminCoachesButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      coachesTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(routes.adminCoachesListPageTag, arguments: _profile);
+    },
+  ),
 );
 
-Widget adminStudentsButton() => ListTile(
-  title: Text(studentsTitle),
-  trailing: Icon(Icons.arrow_forward_ios),
+Widget adminCoachesButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      coachesTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
 );
 
-Widget adminClassesButton() => ListTile(
-  title: Text(classesTitle),
-  trailing: Icon(Icons.arrow_forward_ios),
+Widget adminStudentsButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.students) {
+    return adminStudentsButton(_profile, context);
+  } else {
+    return adminCoachesButtonSelected();
+  }
+}
+
+Widget adminStudentsButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      studentsTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
 );
+
+Widget adminStudentsButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      studentsTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
+Widget adminClassesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.classes) {
+    return adminClassesButton(_profile, context);
+  } else {
+    return adminClassesButtonSelected();
+  }
+}
+
+Widget adminClassesButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      classesTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+);
+
+Widget adminClassesButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      classesTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
+Widget drawerHead(Profile _profile) {
+  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+    return adminAccountDrawerHead(_profile);
+  } else {
+
+  }
+}
+
+Widget drawerCoaches(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+    return adminCoachesButtonHandle(_profile, _selected, context);
+  } else {
+
+  }
+}
+
+Widget drawerStudents(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+    return adminStudentsButtonHandle(_profile, _selected, context);
+  } else {
+
+  }
+}
+
+Widget drawerClasses(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+    return adminClassesButtonHandle(_profile, _selected, context);
+  } else {
+
+  }
+}

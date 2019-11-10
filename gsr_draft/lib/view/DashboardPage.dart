@@ -1,9 +1,10 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/component/AdminDrawer.dart';
 
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../component/AdminDrawer.dart';
+import '../component/AppBar.dart';
 import '../Locator.dart';
 import '../service/NavigationService.dart';
 
@@ -19,38 +20,6 @@ class DashboardPage extends StatelessWidget {
     radius: bigRadius,
     child: appLogo,
   );
-
-  Widget drawerHead() {
-    if (profile.getRoles().contains("ROLE_ADMIN")) {
-      return adminAccountDrawerHead(profile);
-    } else {
-
-    }
-  }
-
-  Widget drawerCoaches() {
-    if (profile.getRoles().contains("ROLE_ADMIN")) {
-      return adminCoachesButton();
-    } else {
-
-    }
-  }
-
-  Widget drawerStudents() {
-    if (profile.getRoles().contains("ROLE_ADMIN")) {
-      return adminStudentsButton();
-    } else {
-
-    }
-  }
-
-  Widget drawerClasses() {
-    if (profile.getRoles().contains("ROLE_ADMIN")) {
-      return adminClassesButton();
-    } else {
-
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,31 +148,10 @@ class DashboardPage extends StatelessWidget {
 //      },
     );
 
-    final drawer = Drawer(
-      child: ListView(
-        children: <Widget>[
-          drawerHead(),
-          drawerCoaches(),
-          drawerStudents(),
-          drawerClasses(),
-        ],
-      ),
-    );
-
     return Scaffold(
         backgroundColor: appWhiteColor,
-        appBar: AppBar(
-          title: Text(
-            appTitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: appWhiteColor,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: appDarkRedColor,
-        ),
-        drawer: drawer,
+        appBar: applicationBar(),
+        drawer: adminDrawer(profile, null, context),
         body: Center(
               child: ListView(
                   shrinkWrap: true,
