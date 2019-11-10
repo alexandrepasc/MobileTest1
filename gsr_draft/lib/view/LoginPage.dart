@@ -126,9 +126,6 @@ class LoginPage extends StatelessWidget {
     userNameController.text = "admin";
     passwordController.text = "sup3r5dm1n";
 
-    final FocusNode _userName = FocusNode();
-    final FocusNode _password = FocusNode();
-
     final logo = CircleAvatar(
       backgroundColor: Colors.transparent,
       radius: bigRadius,
@@ -270,11 +267,5 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-    currentFocus.unfocus();
-    //FocusScope.of(context).requestFocus(nextFocus);
   }
 }

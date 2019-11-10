@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gsr_draft/Locator.dart';
-import 'package:gsr_draft/service/NavigationService.dart';
 
-import 'view/DashboardPage.dart';
 import 'common/Constants.dart';
 import 'common/RoutePaths.dart' as routes;
 import 'common/Router.dart' as router;
+import 'Locator.dart';
+import 'service/NavigationService.dart';
 import 'view/LoginPage.dart';
 
 void main() {

@@ -59,7 +59,6 @@ class _SplashState extends State<SplashPage> {
 
   Future _getThingsOnStartup() async {
 
-    var token;
     Profile _profile;
 
     readFile().then((token) {

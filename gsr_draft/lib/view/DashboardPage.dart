@@ -204,13 +204,7 @@ class DashboardPage extends StatelessWidget {
           backgroundColor: appDarkRedColor,
         ),
         drawer: drawer,
-        body: WillPopScope(
-          //Wrap out body with a `WillPopScope` widget that handles when a user is cosing current route
-          /*onWillPop: () async {
-            print("nop");
-            return Future.value(false); //return a `Future` with false value so this route cant be popped or closed.
-          },*/
-          child: Center(
+        body: Center(
               child: ListView(
                   shrinkWrap: true,
                   padding: EdgeInsets.only(left: 24.0, right: 24.0),
@@ -244,7 +238,6 @@ class DashboardPage extends StatelessWidget {
                   ]
               )
           )
-        ),
     );
   }
 }
