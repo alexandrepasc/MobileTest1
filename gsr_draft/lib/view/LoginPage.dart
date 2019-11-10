@@ -12,6 +12,7 @@ import '../model/AuthModelReq.dart';
 import '../model/AuthModelRes.dart';
 import '../model/UserModelRes.dart';
 import '../service/AuthService.dart';
+import '../service/FileService.dart';
 import '../service/NavigationService.dart';
 
 var feedbackController = TextEditingController();
@@ -40,6 +41,8 @@ class LoginPage extends StatelessWidget {
             _profile.setName(userModel.name);
             _profile.setRoles(userModel.roles);
             //print(_profile.getRoles());
+
+            saveFile(_profile.getToken());
 
             Navigator.pop(context);
             //_navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
