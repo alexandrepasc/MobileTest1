@@ -13,10 +13,12 @@ final NavigationService _navigationService = locator<NavigationService>();
 Widget adminDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) => Drawer(
     child: ListView(
         children: <Widget>[
-          drawerHead(_profile),
+          /*drawerHead(_profile),
+          drawerDashboard(_profile, _selected, context),
           drawerCoaches(_profile, _selected, context),
           drawerStudents(_profile, _selected, context),
-          drawerClasses(_profile, _selected, context)
+          drawerClasses(_profile, _selected, context),*/
+          ...listDrawer(_profile, _selected, context),
         ],
     ),
 );
@@ -33,6 +35,43 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
       ),
     ),
   ),
+);
+
+Widget adminDashboardButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.dashboard) {
+    return adminDashboardButton(_profile, context);
+  } else {
+    return adminDashboardButtonSelected();
+  }
+}
+
+Widget adminDashboardButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      dashboardTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile);
+    },
+  ),
+);
+
+Widget adminDashboardButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      dashboardTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
 );
 
 Widget adminCoachesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
@@ -146,6 +185,14 @@ Widget drawerHead(Profile _profile) {
   }
 }
 
+Widget drawerDashboard(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+    return adminDashboardButtonHandle(_profile, _selected, context);
+  } else {
+
+  }
+}
+
 Widget drawerCoaches(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   if (_profile.getRoles().contains("ROLE_ADMIN")) {
     return adminCoachesButtonHandle(_profile, _selected, context);
@@ -168,4 +215,30 @@ Widget drawerClasses(Profile _profile, AdminDrawerListEnum _selected, BuildConte
   } else {
 
   }
+}
+
+List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  List<Widget> _list = new List();
+
+  if (drawerHead(_profile) != null) {
+    _list.add(drawerHead(_profile));
+  }
+
+  if (drawerDashboard(_profile, _selected, context) != null) {
+    _list.add(drawerDashboard(_profile, _selected, context));
+  }
+  
+  if (drawerCoaches(_profile, _selected, context) != null) {
+    _list.add(drawerCoaches(_profile, _selected, context));
+  }
+
+  if(drawerStudents(_profile, _selected, context) != null) {
+    _list.add(drawerStudents(_profile, _selected, context));
+  }
+  
+  if (drawerClasses(_profile, _selected, context) != null) {
+    _list.add(drawerClasses(_profile, _selected, context));
+  }
+
+  return _list;
 }

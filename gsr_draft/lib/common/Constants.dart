@@ -12,6 +12,7 @@ const userNameHintText = "User Name";
 const passwordHintText = "Password";
 const loginButtonText = "Login";
 
+const dashboardTitle = "Dashboard";
 const coachesTitle = "Caoches list";
 const studentsTitle = "Students list";
 const classesTitle = "Classes list";

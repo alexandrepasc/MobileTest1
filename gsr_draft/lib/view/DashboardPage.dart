@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
+import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../component/AdminDrawer.dart';
@@ -151,7 +152,7 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: appWhiteColor,
         appBar: applicationBar(),
-        drawer: adminDrawer(profile, null, context),
+        drawer: adminDrawer(profile, AdminDrawerListEnum.dashboard, context),
         body: Center(
               child: ListView(
                   shrinkWrap: true,
