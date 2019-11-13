@@ -1,66 +1,143 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
+import 'package:gsr_draft/model/CoachesModel.dart' as coachesModel;
+
 import '../../common/AdminDrawerListEnum.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
+import '../../component/AdminCoachesList.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
+import '../../model/CoachesModel.dart';
+import '../../model/CoachModel.dart';
 import '../../Locator.dart';
+import '../../service/CoachesService.dart';
 import '../../service/NavigationService.dart';
 
-class AdminCoachesListPage extends StatelessWidget {
-
-  final NavigationService _navigationService = locator<NavigationService>();
-
+class AdminCoachesListPage extends StatefulWidget {
   final Profile profile;
 
   AdminCoachesListPage({Key key, this.profile}) : super(key: key);
 
-  void _onLoading(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return new Container(
-          decoration: new BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: new BorderRadius.circular(10.0)
-          ),
-          width: 150.0,
-          height: 200.0,
-          alignment: AlignmentDirectional.center,
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Center(
-                child: new SizedBox(
-                  height: 50.0,
-                  width: 50.0,
-                  child: new CircularProgressIndicator(
-                    value: null,
-                    strokeWidth: 7.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  _AdminCoachesListPage createState() => _AdminCoachesListPage();
+}
+
+class _AdminCoachesListPage extends State<AdminCoachesListPage> {
+  final NavigationService _navigationService = locator<NavigationService>();
+
+  @override
+  void initState() {
+    super.initState();
+    //print(widget.profile.getToken());
+    //data = loadData(widget.profile);
   }
 
-  final table = DataTable(columns: null, rows: null);
+  //Future<CoachesModelRes> data;
+
+  List<DataRow> _buildRow(List<CoachModelRes> info) {
+
+    List<DataRow> rows = new List();
+
+    data2.coaches.forEach((coach) {
+      rows.add(DataRow(cells: [
+        dataRowCell(coach.username),
+        dataRowCell(coach.firstName),
+        dataRowCell(coach.lastName),
+        dataRowCell(coach.description),
+        dataRowCell(coach.notes),
+      ]));
+    });
+
+    return rows;
+  }
+  
+  DataCell dataRowCell(String txt) => DataCell(
+    Text(
+      txt,
+      style: TextStyle(
+        fontSize: 17.0,
+      ),
+    ),
+  );
+
+  Widget coachesTable(CoachesModelRes info) => DataTable(
+    columns: [
+      topRowCell("User Name"),
+      topRowCell("First Name"),
+      topRowCell("Last Name"),
+      topRowCell("Description"),
+      topRowCell("Notes"),
+    ],
+    rows: [..._buildRow(info.coaches)],
+  );
+
+  DataColumn topRowCell(String txt) => DataColumn(
+    label: Text(
+      txt,
+      style: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 16.0
+      ),
+    ),
+  );
+
+  Future<CoachesModelRes> loadData(Profile _profile) async {
+    await getPost(_profile.getToken()).then((response) {
+      if (response.statusCode == 200) {
+        CoachesModelRes coaches = coachesModel.postFromJson(response.body);
+
+        if (coaches.count > 0) {
+          //print(coaches.count);
+          //print(coaches.coaches[0].description);
+          data2 = coaches;
+          //data2 = null;
+          return coaches;
+        } else {
+          data2 = null;
+          return null;
+        }
+      } else {
+        String code = response.statusCode.toString();
+        data2 = null;
+        return null;
+      }
+    }).catchError((error) {
+      print(error.toString());
+      data2 = null;
+      return null;
+    });
+  }
+
+  CoachesModelRes data2;
 
   @override
   Widget build(BuildContext context) {
 
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: appWhiteColor,
       appBar: applicationBar(),
-      drawer: adminDrawer(profile, AdminDrawerListEnum.coaches, context),
-      body: Center(),
+      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.coaches, context),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            FutureBuilder<CoachesModelRes>(
+              future: loadData(widget.profile),
+              builder: (context, snapshot) {
+                if (data2 != null) {
+                  return coachesTable(data2);
+                } else {
+                  return ListTile(title: Text("No data"));
+                }
+              },
+            ),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        ),
+      ),
     );
   }
 }

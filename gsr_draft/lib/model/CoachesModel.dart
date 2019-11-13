@@ -16,6 +16,8 @@ class CoachesModelRes {
 
   factory CoachesModelRes.fromJson(Map<String, dynamic> json) => new CoachesModelRes(
     count: json["count"],
-    coaches: new List<CoachModelRes>.from(json["coaches"]),
+
+    coaches: (json["coaches"] as List).map((i) => CoachModelRes.fromJson(i)).toList(),
+    //coaches: new List<CoachModelRes>.from(json["coaches"]),
   );
 }
