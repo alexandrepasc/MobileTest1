@@ -5,6 +5,7 @@ import 'package:gsr_draft/model/UserModelRes.dart' as userRes;
 
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../Locator.dart';
 import '../model/IsAuthModel.dart';
@@ -81,6 +82,10 @@ class _SplashState extends State<SplashPage> {
                 _profile.setUsername(userModel.username);
                 _profile.setName(userModel.name);
                 _profile.setRoles(userModel.roles);
+
+                if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+
+                }
 
                 _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
 

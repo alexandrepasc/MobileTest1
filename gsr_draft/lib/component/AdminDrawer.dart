@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../Locator.dart';
 import '../service/NavigationService.dart';
@@ -24,7 +25,7 @@ Widget adminDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext
 );
 
 Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
-  accountName: Text(_profile.getName()),
+  accountName: Text(getAccName(_profile)),
   accountEmail: Text(_profile.getUsername()),
   currentAccountPicture: CircleAvatar(
     backgroundColor: appDarkRedColor,
@@ -36,6 +37,15 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
     ),
   ),
 );
+
+String getAccName(Profile _profile) {
+
+  if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+    return _profile.getCoachFirstName() + " " + _profile.getCoachLastName();
+  } else {
+    return _profile.getName();
+  }
+}
 
 Widget adminDashboardButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   if (_selected != AdminDrawerListEnum.dashboard) {
@@ -178,11 +188,7 @@ Widget adminClassesButtonSelected() => Card(
 );
 
 Widget drawerHead(Profile _profile) {
-  if (_profile.getRoles().contains("ROLE_ADMIN")) {
-    return adminAccountDrawerHead(_profile);
-  } else {
-
-  }
+  return adminAccountDrawerHead(_profile);
 }
 
 Widget drawerDashboard(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
