@@ -7,6 +7,7 @@ import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../Locator.dart';
+import '../service/FileService.dart';
 import '../service/NavigationService.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
@@ -39,7 +40,7 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
 );
 
 String getAccName(Profile _profile) {
-  if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+  if (isUser(_profile.getRoles())) {
     return _profile.getCoachFirstName() + " " + _profile.getCoachLastName();
   } else {
     return _profile.getName();
@@ -47,7 +48,7 @@ String getAccName(Profile _profile) {
 }
 
 String getAccImg(Profile _profile) {
-  if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+  if (isUser(_profile.getRoles())) {
     return _profile.getCoachFirstName().substring(0, 1);
   } else {
     return _profile.getName().substring(0, 1);
@@ -194,6 +195,29 @@ Widget adminClassesButtonSelected() => Card(
   color: appDarkRedColor,
 );
 
+Widget logoutButton(BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      "Logout",
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      doLogoutAction(context);
+    },
+  ),
+);
+
+doLogoutAction(BuildContext context) {
+
+  deleteFile();
+
+  Navigator.pop(context);
+  _navigationService.navigateToAndRemove(routes.loginPageTag);
+}
+
 Widget drawerHead(Profile _profile) {
   return adminAccountDrawerHead(_profile);
 }
@@ -252,6 +276,8 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
   if (drawerClasses(_profile, _selected, context) != null) {
     _list.add(drawerClasses(_profile, _selected, context));
   }
+
+  _list.add(logoutButton(context));
 
   return _list;
 }

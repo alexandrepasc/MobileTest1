@@ -22,3 +22,14 @@ saveFile(String data) async {
   await file.writeAsString(text);
   print('saved');
 }
+
+deleteFile() async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/userGsr.dat');
+    await file.delete();
+    print('logout');
+  } catch (e) {
+    print("Couldn't logout");
+  }
+}
