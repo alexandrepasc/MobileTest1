@@ -1,15 +1,20 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+
 import 'package:gsr_draft/model/AuthModelRes.dart' as prefix0;
+import 'package:gsr_draft/model/CoachModel.dart' as coachModel;
 import 'package:gsr_draft/model/UserModelRes.dart' as userRes;
 
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../Locator.dart';
 import '../model/AuthModelReq.dart';
 import '../model/AuthModelRes.dart';
+import '../model/CoachModel.dart';
+import '../service/CoachService.dart' as coachServ;
 import '../model/UserModelRes.dart';
 import '../service/AuthService.dart';
 import '../service/FileService.dart';
@@ -42,11 +47,40 @@ class LoginPage extends StatelessWidget {
             _profile.setRoles(userModel.roles);
             //print(_profile.getRoles());
 
-            saveFile(_profile.getToken());
+            if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+              coachServ.getAuthId(_profile.getToken(), _profile.getId()).then((coachResp) {
 
-            Navigator.pop(context);
-            //_navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile  );
-            _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                if (coachResp.statusCode == 200) {
+
+                  CoachModelRes coachModelRes = coachModel.postFromJson(coachResp.body);
+
+                  _profile.setCoachId(coachModelRes.id);
+                  _profile.setCoachFirstName(coachModelRes.firstName);
+                  _profile.setCoachLastName(coachModelRes.lastName);
+                  _profile.setCoachDescription(coachModelRes.description);
+
+                  saveFile(_profile.getToken());
+
+                  Navigator.pop(context);
+                  _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+
+                } else {
+                  String aux = response.statusCode.toString();
+                  feedbackController.text = "Status code: $aux";
+                  Navigator.pop(context);
+                }
+              }).catchError((error) {
+                feedbackController.text = 'error : $error';
+                Navigator.pop(context);
+              });
+            } else {
+
+              saveFile(_profile.getToken());
+
+              Navigator.pop(context);
+              _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+            }
+
           }
           else {
             String aux = response.statusCode.toString();

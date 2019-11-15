@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:gsr_draft/model/CoachModel.dart' as coachModel;
 import 'package:gsr_draft/model/IsAuthModel.dart' as responseModel;
 import 'package:gsr_draft/model/UserModelRes.dart' as userRes;
 
@@ -8,9 +9,11 @@ import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../Locator.dart';
+import '../model/CoachModel.dart';
 import '../model/IsAuthModel.dart';
 import '../model/UserModelRes.dart';
 import '../service/AuthService.dart' as authServ;
+import '../service/CoachService.dart' as coachServ;
 import '../service/FileService.dart';
 import '../service/IsAuthService.dart';
 import '../service/NavigationService.dart';
@@ -84,10 +87,26 @@ class _SplashState extends State<SplashPage> {
                 _profile.setRoles(userModel.roles);
 
                 if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+                  coachServ.getAuthId(_profile.getToken(), _profile.getId()).then((coachResp) {
 
+                    if (coachResp.statusCode == 200) {
+
+                      CoachModelRes coachModelRes = coachModel.postFromJson(coachResp.body);
+
+                      _profile.setCoachId(coachModelRes.id);
+                      _profile.setCoachFirstName(coachModelRes.firstName);
+                      _profile.setCoachLastName(coachModelRes.lastName);
+                      _profile.setCoachDescription(coachModelRes.description);
+
+                      _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+
+                    } else {
+                      _navigationService.navigateToAndRemove(routes.loginPageTag);
+                    }
+                  }).catchError((error) {
+                    _navigationService.navigateToAndRemove(routes.loginPageTag);
+                  });
                 }
-
-                _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
 
               } else {
                 _navigationService.navigateToAndRemove(routes.loginPageTag);

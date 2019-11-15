@@ -30,7 +30,7 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
   currentAccountPicture: CircleAvatar(
     backgroundColor: appDarkRedColor,
     child: Text(
-      _profile.getName().substring(0, 1),
+      getAccImg(_profile),
       style: TextStyle(
         color: appWhiteColor,
       ),
@@ -39,11 +39,18 @@ Widget adminAccountDrawerHead(Profile _profile) => UserAccountsDrawerHeader(
 );
 
 String getAccName(Profile _profile) {
-
   if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
     return _profile.getCoachFirstName() + " " + _profile.getCoachLastName();
   } else {
     return _profile.getName();
+  }
+}
+
+String getAccImg(Profile _profile) {
+  if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+    return _profile.getCoachFirstName().substring(0, 1);
+  } else {
+    return _profile.getName().substring(0, 1);
   }
 }
 
