@@ -86,7 +86,7 @@ class _SplashState extends State<SplashPage> {
                 _profile.setName(userModel.name);
                 _profile.setRoles(userModel.roles);
 
-                if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+                if (isUser(_profile.getRoles())) {
                   coachServ.getAuthId(_profile.getToken(), _profile.getId()).then((coachResp) {
 
                     if (coachResp.statusCode == 200) {
@@ -106,6 +106,8 @@ class _SplashState extends State<SplashPage> {
                   }).catchError((error) {
                     _navigationService.navigateToAndRemove(routes.loginPageTag);
                   });
+                } else {
+                  _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
                 }
 
               } else {

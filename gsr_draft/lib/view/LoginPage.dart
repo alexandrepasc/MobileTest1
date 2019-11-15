@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
             _profile.setRoles(userModel.roles);
             //print(_profile.getRoles());
 
-            if (_profile.getRoles().contains(RolesName[Roles.ROLE_USER])) {
+            if (isUser(_profile.getRoles())) {
               coachServ.getAuthId(_profile.getToken(), _profile.getId()).then((coachResp) {
 
                 if (coachResp.statusCode == 200) {
