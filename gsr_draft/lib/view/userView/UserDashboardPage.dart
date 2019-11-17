@@ -103,6 +103,10 @@ class _UserDashboard extends State<UserDashboard> {
   }
 
   Card _setCard(SessionModel sessionModel) => Card(
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: appDarkRedColor,),
+      borderRadius: BorderRadius.circular(4.0),
+    ),
     child: InkWell(
       child: ListView(
         children: <Widget>[
@@ -112,7 +116,7 @@ class _UserDashboard extends State<UserDashboard> {
             style: TextStyle(
                 color: appDarkRedColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 22.0
+                fontSize: 24.0
             ),
             textAlign: TextAlign.center,
           ),
