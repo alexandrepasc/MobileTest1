@@ -7,6 +7,7 @@ import '../view/adminView/AdminCoachesListPage.dart';
 import '../view/DashboardPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SplashPage.dart';
+import '../view/UserDashboard.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -14,7 +15,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => LoginPage());
     case routes.dashboardPageTag:
       Profile _profile = settings.arguments as Profile;
-      return MaterialPageRoute(builder: (context) => DashboardPage(profile: _profile,));
+      return MaterialPageRoute(builder: (context) => UserDashboard(profile: _profile,));
     case routes.splashPageTag:
       return MaterialPageRoute(builder: (context) => SplashPage());
     case routes.adminCoachesListPageTag:

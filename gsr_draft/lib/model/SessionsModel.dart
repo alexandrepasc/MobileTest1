@@ -12,8 +12,9 @@ class SessionsModel {
   });
 
   factory SessionsModel.fromJson(List<dynamic> json) {
+    List<SessionModel> _sessions = new List<SessionModel>();
 
-    List<SessionModel> _sessions = json.map((i)=>SessionModel.fromJson(i)).toList();
+    _sessions = json.map((i)=>SessionModel.fromJson(i)).toList();
 
     return new SessionsModel(
       sessions: _sessions,
