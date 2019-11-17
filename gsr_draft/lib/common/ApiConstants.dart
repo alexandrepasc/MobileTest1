@@ -5,3 +5,5 @@ const userEndPoint = "/users/";
 const coachesEndPoint = "/coaches";
 
 const sessionsEndPoint = "/sessions";
+
+const classesEndPoint = "/classes";
