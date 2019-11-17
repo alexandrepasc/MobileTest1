@@ -10,6 +10,7 @@ class SessionModel {
   final String name;
   final String summary;
   final int date;
+  final String className;
 
   SessionModel({
     this.id,
@@ -18,6 +19,7 @@ class SessionModel {
     this.name,
     this.summary,
     this.date,
+    this.className,
   });
 
   factory SessionModel.fromJson(Map<String, dynamic> json) => SessionModel(
@@ -27,5 +29,6 @@ class SessionModel {
     name: json["name"],
     summary: json["summary"],
     date: json["date"],
+    className: json["className"],
   );
 }

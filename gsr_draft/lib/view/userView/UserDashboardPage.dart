@@ -29,7 +29,7 @@ class _UserDashboard extends State<UserDashboard> {
   SessionsModel sessions;
 
   Future<SessionsModel> _getSessions(Profile _profile) async {
-    await getCoachSessions(_profile.getToken(), _profile.getCoachId()).then((apiResponse) {
+    await getCoachSessions(_profile.getToken(), _profile.getCoachId()).then((apiResponse) async {
 
       if (apiResponse.statusCode == 200) {
 
@@ -38,6 +38,7 @@ class _UserDashboard extends State<UserDashboard> {
         if (sessionsModel.sessions.length > 0) {
 
           sessions = sessionsModel;
+
           //print(sessions.sessions.length.toString());
           return sessionsModel;
         } else {
@@ -106,6 +107,16 @@ class _UserDashboard extends State<UserDashboard> {
       child: ListView(
         children: <Widget>[
           SizedBox(height: bigRadius),
+          Text(
+            sessionModel.className,
+            style: TextStyle(
+                color: appDarkRedColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 22.0
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: buttonHeight,),
           Text(
             sessionModel.name,
             style: TextStyle(
