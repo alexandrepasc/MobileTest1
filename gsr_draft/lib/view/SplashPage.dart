@@ -98,7 +98,17 @@ class _SplashState extends State<SplashPage> {
                       _profile.setCoachLastName(coachModelRes.lastName);
                       _profile.setCoachDescription(coachModelRes.description);
 
-                      _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                      if (isUser(_profile.getRoles())) {
+                        _navigationService.navigateToAndRemove(routes.userDashboardPageTag, arguments: _profile);
+                      }
+
+                      if (isAdmin(_profile.getRoles())) {
+                        _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                      }
+
+                      if (isCoordinator(_profile.getRoles())) {
+
+                      }
 
                     } else {
                       _navigationService.navigateToAndRemove(routes.loginPageTag);

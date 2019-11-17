@@ -62,7 +62,17 @@ class LoginPage extends StatelessWidget {
                   saveFile(_profile.getToken());
 
                   Navigator.pop(context);
-                  _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                  if (isUser(_profile.getRoles())) {
+                    _navigationService.navigateToAndRemove(routes.userDashboardPageTag, arguments: _profile);
+                  }
+
+                  if (isAdmin(_profile.getRoles())) {
+                    _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                  }
+
+                  if (isCoordinator(_profile.getRoles())) {
+
+                  }
 
                 } else {
                   String aux = response.statusCode.toString();

@@ -1,13 +1,13 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
-import '../common/AdminDrawerListEnum.dart';
-import '../common/Constants.dart';
-import '../common/Profile.dart';
-import '../component/AdminDrawer.dart';
-import '../component/AppBar.dart';
-import '../Locator.dart';
-import '../service/NavigationService.dart';
+import '../../common/AdminDrawerListEnum.dart';
+import '../../common/Constants.dart';
+import '../../common/Profile.dart';
+import '../../component/AdminDrawer.dart';
+import '../../component/AppBar.dart';
+import '../../Locator.dart';
+import '../../service/NavigationService.dart';
 
 class DashboardPage extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
