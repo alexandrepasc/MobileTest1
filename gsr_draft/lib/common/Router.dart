@@ -6,6 +6,7 @@ import '../common/RoutePaths.dart' as routes;
 import '../view/adminView/AdminCoachesListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
 import '../view/LoginPage.dart';
+import '../view/SessionDetailPage.dart';
 import '../view/SplashPage.dart';
 import '../view/userView/UserDashboardPage.dart';
 
@@ -24,6 +25,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.adminCoachesListPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminCoachesListPage(profile: _profile,));
+    case routes.sessionDetailPageTag:
+      //List<dynamic> args = settings.arguments;
+      //Profile _profile = settings.arguments as Profile;
+      //List<dynamic> args = settings.arguments as List;
+      return MaterialPageRoute(builder: (context) => SessionDetailPage(args: settings.arguments,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(

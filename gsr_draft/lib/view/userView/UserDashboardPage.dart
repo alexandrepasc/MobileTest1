@@ -4,6 +4,8 @@ import 'package:gsr_draft/model/SessionsModel.dart' as sessModel;
 import '../../common/AdminDrawerListEnum.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
+import '../../common/RoutePaths.dart' as routes;
+import '../../common/Session.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
 import '../../Locator.dart';
@@ -140,6 +142,26 @@ class _UserDashboard extends State<UserDashboard> {
           ),
         ],
       ),
+      onTap: _openSessionDetail(sessionModel),
     ),
   );
+
+  _openSessionDetail(SessionModel sessionModel) {
+    print("session: " + sessionModel.name);
+    Session session = new Session(
+      sessionModel.id,
+      sessionModel.classId,
+      sessionModel.coachId,
+      sessionModel.name,
+      sessionModel.summary,
+      sessionModel.date,
+      sessionModel.className
+    );
+    //List<dynamic> args = [widget.profile, session];
+
+    if (sessionModel != null) {
+      //List<dynamic> args = [widget.profile, session];
+      //_navigationService.navigateTo(routes.sessionDetailPageTag, arguments: {widget.profile, session});
+    }
+  }
 }
