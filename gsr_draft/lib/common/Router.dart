@@ -26,10 +26,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminCoachesListPage(profile: _profile,));
     case routes.sessionDetailPageTag:
-      //List<dynamic> args = settings.arguments;
-      //Profile _profile = settings.arguments as Profile;
-      //List<dynamic> args = settings.arguments as List;
-      return MaterialPageRoute(builder: (context) => SessionDetailPage(args: settings.arguments,));
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => SessionDetailPage(profile: _profile,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(
