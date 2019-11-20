@@ -24,15 +24,25 @@ class _SessionDetailPage extends State<SessionDetailPage> {
       appBar: applicationBar(),
       drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
       body: Center(
-        child: ListView(
-          children: <Widget>[
-            Text(
-              widget.profile.getSession().getName()
-            ),
-          ],
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              _setClassName(widget.profile.getSession().getClassName()),
+              SizedBox(width: bigRadius,),
+              _setClassName(widget.profile.getSession().getClassName()),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  Text _setClassName(String _text) => Text(
+    _text,
+    style: TextStyle(
+      color: appDarkRedColor,
+      fontWeight: FontWeight.bold,
+      fontSize: 40.0),
+    textAlign: TextAlign.center,
+  );
 }
