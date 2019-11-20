@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
-import '../common/Session.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
 
 class SessionDetailPage extends StatefulWidget {
-  //final Profile profile;
-  //final Session session;
-  final List<Object> args;
+  final Profile profile;
 
-  SessionDetailPage({Key key, this.args}) : super(key: key);
+  SessionDetailPage({Key key, this.profile}) : super(key: key);
 
   _SessionDetailPage createState() => _SessionDetailPage();
 }
@@ -25,13 +22,13 @@ class _SessionDetailPage extends State<SessionDetailPage> {
     return Scaffold(
       backgroundColor: appWhiteColor,
       appBar: applicationBar(),
-      drawer: adminDrawer(widget.args[0], AdminDrawerListEnum.dashboard, context),
+      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
       body: Center(
         child: ListView(
           children: <Widget>[
-            //Text(
-              //widget.args[1].getName()
-            //),
+            Text(
+              widget.profile.getSession().getName()
+            ),
           ],
         ),
       ),

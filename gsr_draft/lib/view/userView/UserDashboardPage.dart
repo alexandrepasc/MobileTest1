@@ -25,23 +25,21 @@ class UserDashboard extends StatefulWidget {
 }
 
 class _UserDashboard extends State<UserDashboard> {
-
   final NavigationService _navigationService = locator<NavigationService>();
 
   SessionsModel sessions;
 
   Future<SessionsModel> _getSessions(Profile _profile) async {
+    //_onLoading(context);
     await getCoachSessions(_profile.getToken(), _profile.getCoachId()).then((apiResponse) async {
-
       if (apiResponse.statusCode == 200) {
-
         SessionsModel sessionsModel = sessModel.postFromJson(apiResponse.body);
 
         if (sessionsModel.sessions.length > 0) {
-
           sessions = sessionsModel;
 
           //print(sessions.sessions.length.toString());
+          //Navigator.pop(context);
           return sessionsModel;
         } else {
           return null;
@@ -64,33 +62,77 @@ class _UserDashboard extends State<UserDashboard> {
 
   @override
   Widget build(BuildContext context) {
-
     //WidgetsBinding.instance.addPostFrameCallback((_) => _getSessions(widget.profile));
 
     return Scaffold(
-      backgroundColor: appWhiteColor,
-      appBar: applicationBar(),
-      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
-      body: FutureBuilder<SessionsModel>(
-          future: _getSessions(widget.profile),
-          builder: (context, snapshot) {
-            return _orientationBuilder();
-          }
-      )
+        backgroundColor: appWhiteColor,
+        appBar: applicationBar(),
+        drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
+        body: new FutureBuilder<SessionsModel>(
+            future: _getSessions(widget.profile),
+            builder: (context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  //print("none");
+                  return Text("none");
+                case ConnectionState.waiting:
+                  //print("waiting");
+                  return new CircularProgressIndicator();
+                default:
+                  if (snapshot.hasError) {
+                    print("error: ${snapshot.error}");
+                    return Text("Error");
+                  } else {
+                    //print("yap");
+                    return _orientationBuilder();
+                  }
+              }
+            }));
+  }
+
+  void _onLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new Container(
+          decoration: new BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: new BorderRadius.circular(10.0)
+          ),
+          width: 150.0,
+          height: 200.0,
+          alignment: AlignmentDirectional.center,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Center(
+                child: new SizedBox(
+                  height: 50.0,
+                  width: 50.0,
+                  child: new CircularProgressIndicator(
+                    value: null,
+                    strokeWidth: 7.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  OrientationBuilder _orientationBuilder() => OrientationBuilder(
-    builder: (context, orientation) {
-      return GridView.count(
-        crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-        children: _addCards(orientation),
-      );
-    }
-  );
+  OrientationBuilder _orientationBuilder() =>
+      OrientationBuilder(builder: (context, orientation) {
+        return GridView.count(
+          crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+          children: _addCards(orientation),
+        );
+      });
 
   List<Widget> _addCards(Orientation orientation) {
-
     List<Card> cards = new List();
     //print(orientation);
     //print(sessions.sessions.length.toString());
@@ -105,63 +147,72 @@ class _UserDashboard extends State<UserDashboard> {
   }
 
   Card _setCard(SessionModel sessionModel) => Card(
-    shape: RoundedRectangleBorder(
-      side: BorderSide(color: appDarkRedColor,),
-      borderRadius: BorderRadius.circular(4.0),
-    ),
-    child: InkWell(
-      child: ListView(
-        children: <Widget>[
-          SizedBox(height: bigRadius),
-          Text(
-            sessionModel.className,
-            style: TextStyle(
-                color: appDarkRedColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0
-            ),
-            textAlign: TextAlign.center,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: appDarkRedColor,
           ),
-          SizedBox(height: buttonHeight,),
-          Text(
-            sessionModel.name,
-            style: TextStyle(
-              color: appDarkRedColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-            textAlign: TextAlign.center,
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: InkWell(
+          child: ListView(
+            children: <Widget>[
+              SizedBox(height: bigRadius),
+              Text(
+                sessionModel.className,
+                style: TextStyle(
+                    color: appDarkRedColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: buttonHeight,
+              ),
+              Text(
+                sessionModel.name,
+                style: TextStyle(
+                    color: appDarkRedColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: buttonHeight,
+              ),
+              Text(
+                "Date: " +
+                    new DateTime.fromMillisecondsSinceEpoch(sessionModel.date)
+                        .toString(),
+                style: TextStyle(
+                  fontSize: 16.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          SizedBox(height: buttonHeight,),
-          Text(
-            "Date: " + new DateTime.fromMillisecondsSinceEpoch(sessionModel.date).toString(),
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-      onTap: _openSessionDetail(sessionModel),
-    ),
-  );
+          onTap: () {
+            _openSessionDetail(sessionModel);
+          },
+        ),
+      );
 
   _openSessionDetail(SessionModel sessionModel) {
-    print("session: " + sessionModel.name);
-    Session session = new Session(
-      sessionModel.id,
-      sessionModel.classId,
-      sessionModel.coachId,
-      sessionModel.name,
-      sessionModel.summary,
-      sessionModel.date,
-      sessionModel.className
-    );
-    //List<dynamic> args = [widget.profile, session];
-
     if (sessionModel != null) {
-      //List<dynamic> args = [widget.profile, session];
-      //_navigationService.navigateTo(routes.sessionDetailPageTag, arguments: {widget.profile, session});
+      //print("session: " + sessionModel.name);
+      Session session = new Session(
+          sessionModel.id,
+          sessionModel.classId,
+          sessionModel.coachId,
+          sessionModel.name,
+          sessionModel.summary,
+          sessionModel.date,
+          sessionModel.className);
+
+      Profile _profile = widget.profile;
+      _profile.setSession(session);
+      //print(_profile.getSession().getName());
+
+      _navigationService.navigateTo(routes.sessionDetailPageTag, arguments: _profile);
     }
   }
 }
