@@ -146,9 +146,7 @@ class _UserDashboard extends State<UserDashboard> {
                 height: buttonHeight,
               ),
               Text(
-                "Date: " +
-                    new DateTime.fromMillisecondsSinceEpoch(sessionModel.date)
-                        .toString(),
+                "Date: " + new DateTime.fromMillisecondsSinceEpoch(sessionModel.date).toString(),
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
