@@ -32,3 +32,20 @@ class SessionModel {
     className: json["className"],
   );
 }
+
+
+// PUT: UPDATE SUMMARY
+String putToJson(SessionUpdateSummaryModel data) => json.encode(data.toJson());
+
+class SessionUpdateSummaryModel {
+
+  final String summary;
+
+  SessionUpdateSummaryModel({
+    this.summary,
+  });
+
+  Map<String, dynamic> toJson() => {
+    "summary": summary,
+  };
+}

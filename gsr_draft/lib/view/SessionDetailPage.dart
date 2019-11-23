@@ -5,6 +5,7 @@ import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
+import '../component/SessionDetailSummaryTab.dart';
 
 class SessionDetailPage extends StatefulWidget {
   final Profile profile;
@@ -18,11 +19,20 @@ class _SessionDetailPage extends State<SessionDetailPage> {
 
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    PlaceholderWidget(Colors.white),
+  /*final List<Widget> _children = [
+    SessionDetailSummaryTab(widget.profile.getSession().getSummary()),
     PlaceholderWidget(Colors.deepOrange),
     PlaceholderWidget(Colors.green)
-  ];
+  ];*/
+
+  _getChildren(int x) {
+    switch (x) {
+      case 0:
+        return SessionDetailSummaryTab(summary: widget.profile.getSession().getSummary(), profile: widget.profile,);
+      case 1:
+        return PlaceholderWidget(Colors.deepOrange);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +71,8 @@ class _SessionDetailPage extends State<SessionDetailPage> {
                 ],
               ),
             ),
-            _children[_currentIndex]
+            SizedBox(height: buttonHeight,),
+            _getChildren(_currentIndex),
           ],
         )
       ),
@@ -107,12 +118,12 @@ class _SessionDetailPage extends State<SessionDetailPage> {
     onTap: onTabTapped,
     items: [
       BottomNavigationBarItem(
-        icon: Icon(Icons.group),
-        title: Text("Attendance"),
-      ),
-      BottomNavigationBarItem(
         icon: Icon(Icons.chat),
         title: Text("Summary"),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.group),
+        title: Text("Attendance"),
       ),
     ],
   );
