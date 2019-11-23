@@ -5,6 +5,7 @@ import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
+import '../component/SessionDetailAttendanceTab.dart';
 import '../component/SessionDetailSummaryTab.dart';
 
 class SessionDetailPage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SessionDetailPage extends State<SessionDetailPage> {
       case 0:
         return SessionDetailSummaryTab(summary: widget.profile.getSession().getSummary(), profile: widget.profile,);
       case 1:
-        return PlaceholderWidget(Colors.deepOrange);
+        return SessionDetailAttendanceTab(profile: widget.profile,);
     }
   }
 

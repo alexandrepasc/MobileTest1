@@ -8,7 +8,7 @@ class ClassModel {
   final String name;
   final String description;
   final String coachId;
-  final String students;
+  final List<String> students;
 
   ClassModel({
     this.id,
@@ -23,6 +23,6 @@ class ClassModel {
     name: json["name"],
     description: json["description"],
     coachId: json["coachId"],
-    students: json["students"],
+    students: new List<String>.from(json["students"]),
   );
 }
