@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gsr_draft/model/ClassModel.dart' as clModel;
+import 'package:gsr_draft/model/SessionsModel.dart' as seModel;
 
+import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
+import 'LoadingCircle.dart';
 import '../Locator.dart';
 import '../model/ClassModel.dart';
+import '../model/SessionModel.dart';
+import '../model/SessionsModel.dart';
 import '../service/ClassService.dart';
 import '../service/NavigationService.dart';
+import '../service/SessionService.dart';
 
 class SessionDetailAttendanceTab extends StatefulWidget {
   final Profile profile;
@@ -22,11 +28,13 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
   List<String> studentsList;
   Map<String, bool> studentsMap = new Map();
   List<Students> studentsClass = new List();
+  List<SessionPresenceModel> presences;
 
   @override
   void initState() {
-    _getClassStudents();
     super.initState();
+    _getSessionStudents();
+    print("init SessionDetailAttendanceTab");
   }
 
   Future _getClassStudents() async {
@@ -66,21 +74,47 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
     });
   }
 
+  Future _getSessionStudents() async {
+
+    getSessionPresences(widget.profile.getToken(), widget.profile.getSession().getId()).then((response) {
+
+      if (response.statusCode == 200) {
+
+        SessionPresencesModel sessionPresencesModel = seModel.getFromJson(response.body);
+
+        presences = sessionPresencesModel.presences;
+        print(presences.length);
+
+        setState(() {
+
+        });
+
+      } else if (response.statusCode == 401) {
+        print("cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+      } else {
+        print(response.statusCode);
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         width: 700,
         child: new Column(
-          children: _getStudentsList(),
+          children: _getStudentsList(context),
         ),
       ),
     );
   }
 
-  List<CheckboxListTile> _getStudentsList() {
+  List<Widget> _getStudentsList(BuildContext context) {
 
-    List<CheckboxListTile> list = new List();
+    List<Widget> list = new List();
 
     /*studentsList.forEach((student) {
       list.add(_getStudentTile(student, false, 1));
@@ -90,23 +124,53 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
       list.add(_getStudentTile(id, check));
     });*/
 
-    for (int i = 0; i < studentsClass.length; i++) {
+    /*for (int i = 0; i < studentsClass.length; i++) {
       list.add(_getStudentTile(studentsClass[i]._id, studentsClass[i]._presence, i));
+    }*/
+
+    for (int i =0; i < presences.length; i++) {
+      list.add(_getStudentTile(presences[i].studentName, presences[i].presence, i));
     }
+
+    list.add(SizedBox(height: buttonHeight));
+    list.add(_getSaveButton(context));
 
     return list;
   }
 
-  CheckboxListTile _getStudentTile(String id, bool check, int numb) => CheckboxListTile(
-    title: Text(id),
+  CheckboxListTile _getStudentTile(String name, bool check, int numb) => CheckboxListTile(
+    title: Text(name),
     value: check,
     onChanged: (val) {
-      studentsClass[numb].setPresence(val);
-      print(studentsClass[numb].getPresence());
+      presences[numb].presence = val;
+      print(presences[numb].presence);
       setState(() {
 
       });
     },
+  );
+
+  Column _getSaveButton(BuildContext context) => Column(
+    children: <Widget>[
+      SizedBox(height: buttonHeight),
+      Row(
+        children: <Widget>[
+          FloatingActionButton(
+            child: Icon(Icons.check),
+            backgroundColor: Colors.green,
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.clear),
+            backgroundColor: Colors.red,
+            onPressed: () {
+              onLoading(context);
+              _getSessionStudents();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    ],
   );
 }
 
