@@ -27,7 +27,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
   @override
   void initState() {
     summaryData.set(widget.summary);
-    print("init");
+    print("init SessionDetailSummaryTab");
     print(widget.profile.getCoachFirstName());
     super.initState();
   }
