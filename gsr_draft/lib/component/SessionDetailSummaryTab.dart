@@ -41,7 +41,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
     setEdit(bool _notRead, int _show) {
       _readOnly = _notRead;
       _index = _show;
-      onLoading(context);Navigator.pop(context);
+
       setState(() {
 
       });
@@ -58,7 +58,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
         summaryData.set(_summaryController.text);
       },
       decoration: InputDecoration(
-        hintText: userNameHintText,
+        hintText: "Summary",
         hintStyle: TextStyle(color: Colors.black38),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(
