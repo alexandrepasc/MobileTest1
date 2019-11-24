@@ -21,3 +21,24 @@ class SessionsModel {
     );
   }
 }
+
+//GET: SESSION PRESENCES
+SessionPresencesModel getFromJson(String str) => SessionPresencesModel.fromJson(json.decode(str));
+
+class SessionPresencesModel {
+  final List<SessionPresenceModel> presences;
+
+  SessionPresencesModel({
+    this.presences,
+  });
+
+  factory SessionPresencesModel.fromJson(List<dynamic> json) {
+    List<SessionPresenceModel> _presences = new List<SessionPresenceModel>();
+
+    _presences = json.map((i) => SessionPresenceModel.fromJson(i)).toList();
+
+    return new SessionPresencesModel(
+      presences: _presences,
+    );
+  }
+}

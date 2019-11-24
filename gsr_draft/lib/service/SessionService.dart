@@ -33,3 +33,10 @@ Future<http.Response> putSession(String token, String id, SessionUpdateSummaryMo
   );
   return response;
 }
+
+Future<http.Response> getSessionPresences(String token, String id) async {
+  final response = await http.get(new Uri.http("$apiUrl", "$sessionsEndPoint/presences/$id"),
+    headers: getHeaderWithToken(token),
+  );
+  return response;
+}

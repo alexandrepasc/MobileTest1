@@ -49,3 +49,28 @@ class SessionUpdateSummaryModel {
     "summary": summary,
   };
 }
+
+//GET: SESSION PRESENCE
+SessionPresenceModel getFromJson(String str) => SessionPresenceModel.fromJson(json.decode(str));
+
+class SessionPresenceModel {
+
+  String studentId;
+  String studentName;
+  String presenceId;
+  bool presence;
+
+  SessionPresenceModel({
+    this.studentId,
+    this.studentName,
+    this.presenceId,
+    this.presence,
+  });
+
+  factory SessionPresenceModel.fromJson(Map<String, dynamic> json) => SessionPresenceModel(
+      studentId: json["studentId"],
+      studentName: json["studentName"],
+      presenceId: json["presenceId"],
+      presence: json["presence"],
+  );
+}
