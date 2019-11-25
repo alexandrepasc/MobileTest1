@@ -110,27 +110,55 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
 
       if (presence.presence) {
 
-        PresenceAddModel presenceModel = new PresenceAddModel(
-          sessionId: widget.profile.getSession().getId(),
-          studentId: presence.studentId,
-          classId: widget.profile.getSession().getClassId(),
-          coachId: widget.profile.getCoachId(),
-          date: DateTime.now().millisecondsSinceEpoch,
-        );
+        if (presence.presenceId == null) {
 
-        postPresence(widget.profile.getToken(), presenceModel).then((response) {
+          print("id null");
 
-          if (response.statusCode == 200) {
-            print("ok");
-          } else if (response.statusCode == 401) {
-            print("cod 401");
-            _navigationService.navigateToAndRemove(routes.loginPageTag);
-          } else {
-            print(response.statusCode);
-          }
-        }).catchError((error) {
-          print(error);
-        });
+          PresenceAddModel presenceModel = new PresenceAddModel(
+            sessionId: widget.profile.getSession().getId(),
+            studentId: presence.studentId,
+            classId: widget.profile.getSession().getClassId(),
+            coachId: widget.profile.getCoachId(),
+            date: DateTime
+                .now()
+                .millisecondsSinceEpoch,
+          );
+
+          postPresence(widget.profile.getToken(), presenceModel).then((
+              response) {
+            if (response.statusCode == 200) {
+              print("ok");
+              _getSessionStudents();
+            } else if (response.statusCode == 401) {
+              print("cod 401");
+              _navigationService.navigateToAndRemove(routes.loginPageTag);
+            } else {
+              print(response.statusCode);
+            }
+          }).catchError((error) {
+            print(error);
+          });
+        }
+      } else {
+
+        if (presence.presenceId != null) {
+
+          print("id not null");
+
+          deletePresence(widget.profile.getToken(), presence.presenceId).then((response) {
+            if (response.statusCode == 200) {
+              print("ok");
+              _getSessionStudents();
+            } else if (response.statusCode == 401) {
+              print("cod 401");
+              _navigationService.navigateToAndRemove(routes.loginPageTag);
+            } else {
+              print(response.statusCode);
+            }
+          }).catchError((error) {
+            print(error);
+          });
+        }
       }
     });
 

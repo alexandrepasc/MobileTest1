@@ -12,3 +12,10 @@ Future<http.Response> postPresence(String token, PresenceAddModel post) async {
   );
   return response;
 }
+
+Future<http.Response> deletePresence(String token, String id) async {
+  final response = await http.delete(new Uri.http("$apiUrl", "$presencesEndPoint/$id"),
+    headers: getHeaderWithToken(token),
+  );
+  return response;
+}
