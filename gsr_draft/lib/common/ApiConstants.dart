@@ -8,3 +8,5 @@ const coachesEndPoint = "/coaches";
 const sessionsEndPoint = "/sessions";
 
 const classesEndPoint = "/classes";
+
+const presencesEndPoint = "/presences";

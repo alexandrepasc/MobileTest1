@@ -8,10 +8,12 @@ import '../common/RoutePaths.dart' as routes;
 import 'LoadingCircle.dart';
 import '../Locator.dart';
 import '../model/ClassModel.dart';
+import '../model/PresenceModel.dart';
 import '../model/SessionModel.dart';
 import '../model/SessionsModel.dart';
 import '../service/ClassService.dart';
 import '../service/NavigationService.dart';
+import '../service/PresencesService.dart';
 import '../service/SessionService.dart';
 
 class SessionDetailAttendanceTab extends StatefulWidget {
@@ -100,6 +102,41 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
     });
   }
 
+  Future _postPresence() async {
+
+    onLoading(context);
+
+    presences.forEach((presence) {
+
+      if (presence.presence) {
+
+        PresenceAddModel presenceModel = new PresenceAddModel(
+          sessionId: widget.profile.getSession().getId(),
+          studentId: presence.studentId,
+          classId: widget.profile.getSession().getClassId(),
+          coachId: widget.profile.getCoachId(),
+          date: DateTime.now().millisecondsSinceEpoch,
+        );
+
+        postPresence(widget.profile.getToken(), presenceModel).then((response) {
+
+          if (response.statusCode == 200) {
+            print("ok");
+          } else if (response.statusCode == 401) {
+            print("cod 401");
+            _navigationService.navigateToAndRemove(routes.loginPageTag);
+          } else {
+            print(response.statusCode);
+          }
+        }).catchError((error) {
+          print(error);
+        });
+      }
+    });
+
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -158,6 +195,9 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
           FloatingActionButton(
             child: Icon(Icons.check),
             backgroundColor: Colors.green,
+            onPressed: () {
+              _postPresence();
+            }
           ),
           FloatingActionButton(
             child: Icon(Icons.clear),
