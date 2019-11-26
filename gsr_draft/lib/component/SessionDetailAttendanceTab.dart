@@ -225,7 +225,8 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
             backgroundColor: Colors.green,
             onPressed: () {
               _postPresence();
-            }
+            },
+            heroTag: "save",
           ),
           FloatingActionButton(
             child: Icon(Icons.clear),
@@ -235,6 +236,7 @@ class _SessionDetailAttendanceTab extends State<SessionDetailAttendanceTab> {
               _getSessionStudents();
               Navigator.pop(context);
             },
+            heroTag: "cancel",
           ),
         ],
       ),

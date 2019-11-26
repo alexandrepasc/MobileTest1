@@ -87,6 +87,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
               onPressed: () {
                 setEdit(false, 1);
               },
+              heroTag: "edit",
             ),
           ],
         ),
@@ -107,6 +108,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
                 _callApi(widget.profile.getToken(), widget.profile.getSession().getId(), summaryData.get(), context);
                 setEdit(true, 0);
               },
+              heroTag: "save",
             ),
             FloatingActionButton(
               child: Icon(Icons.clear),
@@ -115,6 +117,7 @@ class _SessionDetailSummaryTab extends State<SessionDetailSummaryTab> {
                 summaryData.set(widget.summary);
                 setEdit(true, 0);
               },
+              heroTag: "cancel",
             ),
           ],
         ),
