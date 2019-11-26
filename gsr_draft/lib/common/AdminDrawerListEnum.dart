@@ -3,4 +3,6 @@ enum AdminDrawerListEnum {
   coaches,
   students,
   classes,
+  userdashboard,
+  mysessions,
 }

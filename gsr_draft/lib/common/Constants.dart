@@ -16,6 +16,7 @@ const dashboardTitle = "Dashboard";
 const coachesTitle = "Caoches list";
 const studentsTitle = "Students list";
 const classesTitle = "Classes list";
+const mySessionsTitle = "My Sessions";
 
 // Images
 Image appLogo = Image.asset('assets/images/logo.jpg');

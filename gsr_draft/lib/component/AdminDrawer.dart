@@ -92,6 +92,43 @@ Widget adminDashboardButtonSelected() => Card(
   color: appDarkRedColor,
 );
 
+Widget userDashboardButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.userdashboard) {
+    return userDashboardButton(_profile, context);
+  } else {
+    return userDashboardButtonSelected();
+  }
+}
+
+Widget userDashboardButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      dashboardTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(routes.userDashboardPageTag, arguments: _profile);
+    },
+  ),
+);
+
+Widget userDashboardButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      dashboardTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
 Widget adminCoachesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   if (_selected != AdminDrawerListEnum.coaches) {
     return adminCoachesButton(_profile, context);
@@ -223,10 +260,10 @@ Widget drawerHead(Profile _profile) {
 }
 
 Widget drawerDashboard(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+  if (isAdmin(_profile.getRoles())) {
     return adminDashboardButtonHandle(_profile, _selected, context);
-  } else {
-
+  } else if (isUser(_profile.getRoles())) {
+    return userDashboardButtonHandle(_profile, _selected, context);
   }
 }
 
@@ -254,6 +291,10 @@ Widget drawerClasses(Profile _profile, AdminDrawerListEnum _selected, BuildConte
   }
 }
 
+Widget drawerMySessions(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  
+}
+
 List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   List<Widget> _list = new List();
 
@@ -275,6 +316,10 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
   
   if (drawerClasses(_profile, _selected, context) != null) {
     _list.add(drawerClasses(_profile, _selected, context));
+  }
+
+  if () {
+
   }
 
   _list.add(logoutButton(context));

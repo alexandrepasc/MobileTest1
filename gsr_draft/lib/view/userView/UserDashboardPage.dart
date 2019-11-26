@@ -67,7 +67,7 @@ class _UserDashboard extends State<UserDashboard> {
     return Scaffold(
         backgroundColor: appWhiteColor,
         appBar: applicationBar(),
-        drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
+        drawer: adminDrawer(widget.profile, AdminDrawerListEnum.userdashboard, context),
         body: new FutureBuilder<SessionsModel>(
             future: _getSessions(widget.profile),
             builder: (context, AsyncSnapshot snapshot) {
