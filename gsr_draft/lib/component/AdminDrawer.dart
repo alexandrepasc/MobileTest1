@@ -305,7 +305,7 @@ Widget drawerDashboard(Profile _profile, AdminDrawerListEnum _selected, BuildCon
 }
 
 Widget drawerCoaches(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+  if (isAdmin(_profile.getRoles())) {
     return adminCoachesButtonHandle(_profile, _selected, context);
   } else {
 
@@ -313,7 +313,7 @@ Widget drawerCoaches(Profile _profile, AdminDrawerListEnum _selected, BuildConte
 }
 
 Widget drawerStudents(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+  if (isAdmin(_profile.getRoles())) {
     return adminStudentsButtonHandle(_profile, _selected, context);
   } else {
 
@@ -321,7 +321,7 @@ Widget drawerStudents(Profile _profile, AdminDrawerListEnum _selected, BuildCont
 }
 
 Widget drawerClasses(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  if (_profile.getRoles().contains("ROLE_ADMIN")) {
+  if (isAdmin(_profile.getRoles())) {
     return adminClassesButtonHandle(_profile, _selected, context);
   } else {
 
