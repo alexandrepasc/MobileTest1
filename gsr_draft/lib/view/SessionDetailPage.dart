@@ -41,7 +41,7 @@ class _SessionDetailPage extends State<SessionDetailPage> {
     return Scaffold(
       backgroundColor: appWhiteColor,
       appBar: applicationBar(),
-      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.dashboard, context),
+      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.none, context),
       body: Center(
         child: ListView(
           children: <Widget>[
@@ -64,7 +64,7 @@ class _SessionDetailPage extends State<SessionDetailPage> {
                       SizedBox(height: bigRadius, width: bigRadius,),
                       _setLessonName(widget.profile.getSession().getName()),
                       SizedBox(width: bigRadius + bigRadius),
-                      _setCoachName(widget.profile.getSession().getCoachId()),
+                      _setCoachName(widget.profile.getCoachFirstName() + " " + widget.profile.getCoachLastName()),
                       SizedBox(width: bigRadius + bigRadius),
                       _setCoachName(new DateTime.fromMillisecondsSinceEpoch(widget.profile.getSession().getDate()).toString()),
                     ],
