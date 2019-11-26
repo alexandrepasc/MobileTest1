@@ -74,7 +74,7 @@ Widget adminDashboardButton(Profile _profile, BuildContext context) => Card(
     trailing: Icon(Icons.arrow_forward_ios),
     onTap: () {
       Navigator.pop(context);
-      _navigationService.navigateTo(routes.dashboardPageTag, arguments: _profile);
+      _navigationService.navigateTo(routes.userDashboardPageTag, arguments: _profile);
     },
   ),
 );
@@ -232,6 +232,43 @@ Widget adminClassesButtonSelected() => Card(
   color: appDarkRedColor,
 );
 
+Widget userMySessionsButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.mysessions) {
+    return userMySessionsButton(_profile, context);
+  } else {
+    return userMySessionsButtonSelected();
+  }
+}
+
+Widget userMySessionsButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      mySessionsTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(routes.userMySessionsPageTag, arguments: _profile);
+    },
+  ),
+);
+
+Widget userMySessionsButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      mySessionsTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
 Widget logoutButton(BuildContext context) => Card(
   child: ListTile(
     title: Text(
@@ -292,7 +329,9 @@ Widget drawerClasses(Profile _profile, AdminDrawerListEnum _selected, BuildConte
 }
 
 Widget drawerMySessions(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  
+  if (isUser(_profile.getRoles())) {
+    return userMySessionsButtonHandle(_profile, _selected, context);
+  }
 }
 
 List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
@@ -318,8 +357,8 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
     _list.add(drawerClasses(_profile, _selected, context));
   }
 
-  if () {
-
+  if (drawerMySessions(_profile, _selected, context) != null) {
+    _list.add(drawerMySessions(_profile, _selected, context));
   }
 
   _list.add(logoutButton(context));

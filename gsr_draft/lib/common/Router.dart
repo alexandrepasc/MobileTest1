@@ -8,6 +8,7 @@ import '../view/adminView/AdminDashboardPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SessionDetailPage.dart';
 import '../view/SplashPage.dart';
+import '../view/userView/UserMySessionsPage.dart';
 import '../view/userView/UserDashboardPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,6 +29,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.sessionDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => SessionDetailPage(profile: _profile,));
+    case routes.userMySessionsPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => UserMySessionsPage(profile: _profile,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(
