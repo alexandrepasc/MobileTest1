@@ -5,6 +5,7 @@ import '../../common/AdminDrawerListEnum.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
 import '../../common/RoutePaths.dart' as routes;
+import '../../common/Session.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
 import '../../component/LoadingCircle.dart';
@@ -32,36 +33,43 @@ class _UserMySessionsPage extends State<UserMySessionsPage> {
       backgroundColor: appWhiteColor,
       appBar: applicationBar(),
       drawer: adminDrawer(widget.profile, AdminDrawerListEnum.mysessions, context),
-      body: new FutureBuilder<SessionsModel>(
-          future: _getSessions(widget.profile),
-          initialData: new SessionsModel(),
-          builder: (context, AsyncSnapshot<SessionsModel> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                print("none");
-                //return Text("none");
-                return loadingCircle();
-              case ConnectionState.waiting:
-                print("waiting");
-                return loadingCircle();
-              case ConnectionState.active:
-                return Text("active");
-              case ConnectionState.done:
-                print("yap1");
-                //String a = snapshot.data;
-                print(sessions.sessions[0].name);
-                //sessions = snapshot.data;
-                //return Text(snapshot.data.toString());
-                return testing(snapshot.data.sessions.length.toString());
-              default:
-                if (snapshot.hasError) {
-                  print("error: ${snapshot.error}");
-                  return Text("Error");
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            new FutureBuilder<SessionsModel>(
+                future: _getSessions(widget.profile),
+                initialData: new SessionsModel(),
+                builder: (context, AsyncSnapshot<SessionsModel> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      print("none");
+                      //return Text("none");
+                      return loadingCircle();
+                    case ConnectionState.waiting:
+                      print("waiting");
+                      return loadingCircle();
+                    case ConnectionState.active:
+                      return Text("active");
+                    case ConnectionState.done:
+                      print("yap1");
+                      //String a = snapshot.data;
+                      print(sessions.sessions[0].name);
+                      //sessions = snapshot.data;
+                      //return Text(snapshot.data.toString());
+                      return _getSessionsTable();
+                    default:
+                      if (snapshot.hasError) {
+                        print("error: ${snapshot.error}");
+                        return Text("Error");
+                      }
+                      print("nop");
+                      return loadingCircle();
+                  }
                 }
-                print("nop");
-                return loadingCircle();
-            }
-          }
+            ),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        ),
       ),
     );
   }
@@ -70,10 +78,10 @@ class _UserMySessionsPage extends State<UserMySessionsPage> {
 
   Future<SessionsModel> _getSessions(Profile _profile) async {
     //_onLoading(context);
-    await getCoachSessions(_profile.getToken(), _profile.getCoachId()).then((apiResponse) async {
-      if (apiResponse.statusCode == 200) {
-        SessionsModel sessionsModel = sessModel.postFromJson(apiResponse.body);
-        print(apiResponse.statusCode);
+    await getCoachSessions(_profile.getToken(), _profile.getCoachId()).then((response) async {
+      if (response.statusCode == 200) {
+        SessionsModel sessionsModel = sessModel.postFromJson(response.body);
+        print(response.statusCode);
 
         if (sessionsModel.sessions.length > 0) {
           sessions = sessionsModel;
@@ -84,17 +92,91 @@ class _UserMySessionsPage extends State<UserMySessionsPage> {
         } else {
           return null;
         }
+      } else if (response.statusCode == 401) {
+        print("cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
       } else {
+        print(response.statusCode);
         return null;
       }
     }).catchError((error) {
+      print(error);
       return null;
     });
 
     return null;
   }
-  
-  Text testing(String _sessions) => Text(
-    _sessions
+
+  Widget _getSessionsTable() => DataTable(
+    columns: [
+      topRowCell("Name"),
+      topRowCell("Class"),
+      topRowCell("Date"),
+      topRowCell("Summary"),
+    ],
+    rows: [..._buildRow()],
   );
+
+  DataColumn topRowCell(String txt) => DataColumn(
+    label: Text(
+      txt,
+      style: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 16.0
+      ),
+    ),
+  );
+
+  List<DataRow> _buildRow() {
+
+    List<DataRow> rows = new List();
+
+    sessions.sessions.forEach((session) {
+      rows.add(
+        DataRow(
+          cells: [
+            dataRowCell(session.name, session),
+            dataRowCell(session.className, session),
+            dataRowCell(new DateTime.fromMillisecondsSinceEpoch(session.date).toString(), session),
+            dataRowCell(session.summary, session),
+          ],
+        )
+      );
+    });
+
+    return rows;
+  }
+
+  DataCell dataRowCell(String txt, SessionModel sessionModel) => DataCell(
+    Text(
+      txt,
+      style: TextStyle(
+        fontSize: 17.0,
+      ),
+    ),
+    onTap: () {
+      _openSessionDetail(sessionModel);
+    }
+  );
+  
+  _openSessionDetail(SessionModel sessionModel) {
+    if (sessionModel != null) {
+      Session session = new Session(
+          sessionModel.id,
+          sessionModel.classId,
+          sessionModel.coachId,
+          sessionModel.name,
+          sessionModel.summary,
+          sessionModel.date,
+          sessionModel.className
+      );
+
+      Profile profile = widget.profile;
+      profile.setSession(session);
+
+      _navigationService.navigateTo(routes.sessionDetailPageTag, arguments: profile);
+    }
+  }
 }
