@@ -5,5 +5,6 @@ enum AdminDrawerListEnum {
   classes,
   userdashboard,
   mysessions,
+  myclasses,
   none
 }
