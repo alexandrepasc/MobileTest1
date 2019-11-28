@@ -41,7 +41,7 @@ class ClassesModel {
   factory ClassesModel.fromJson(List<dynamic> json) {
     List<ClassModel> _classes = new List<ClassModel>();
 
-    _classes = json.map((i)=>ClassModel.fromJson(i)).toList();
+    _classes = json.map((i) => ClassModel.fromJson(i)).toList();
 
     return new ClassesModel(
       classes: _classes,
