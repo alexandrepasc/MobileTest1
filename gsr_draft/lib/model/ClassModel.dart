@@ -26,3 +26,25 @@ class ClassModel {
     students: new List<String>.from(json["students"]),
   );
 }
+
+
+ClassesModel getFromJson(String str) => ClassesModel.fromJson(json.decode(str));
+
+class ClassesModel {
+
+  final List<ClassModel> classes;
+
+  ClassesModel({
+    this.classes
+  });
+
+  factory ClassesModel.fromJson(List<dynamic> json) {
+    List<ClassModel> _classes = new List<ClassModel>();
+
+    _classes = json.map((i)=>ClassModel.fromJson(i)).toList();
+
+    return new ClassesModel(
+      classes: _classes,
+    );
+  }
+}
