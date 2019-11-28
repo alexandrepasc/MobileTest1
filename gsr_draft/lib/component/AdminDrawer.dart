@@ -269,6 +269,43 @@ Widget userMySessionsButtonSelected() => Card(
   color: appDarkRedColor,
 );
 
+Widget userMyClassesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (_selected != AdminDrawerListEnum.myclasses) {
+    return userMyClassesButton(_profile, context);
+  } else {
+    return userMyClassesButtonSelected();
+  }
+}
+
+Widget userMyClassesButton(Profile _profile, BuildContext context) => Card(
+  child: ListTile(
+    title: Text(
+      myClassesTitle,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(routes.userMyClassesPageTag, arguments: _profile);
+    },
+  ),
+);
+
+Widget userMyClassesButtonSelected() => Card(
+  child: ListTile(
+    title: Text(
+      myClassesTitle,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
 Widget logoutButton(BuildContext context) => Card(
   child: ListTile(
     title: Text(
@@ -334,6 +371,12 @@ Widget drawerMySessions(Profile _profile, AdminDrawerListEnum _selected, BuildCo
   }
 }
 
+Widget drawerMyClasses(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
+  if (isUser(_profile.getRoles())) {
+    return userMyClassesButtonHandle(_profile, _selected, context);
+  }
+}
+
 List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   List<Widget> _list = new List();
 
@@ -359,6 +402,10 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
 
   if (drawerMySessions(_profile, _selected, context) != null) {
     _list.add(drawerMySessions(_profile, _selected, context));
+  }
+
+  if (drawerMyClasses(_profile, _selected, context) != null) {
+    _list.add(drawerMyClasses(_profile, _selected, context));
   }
 
   _list.add(logoutButton(context));

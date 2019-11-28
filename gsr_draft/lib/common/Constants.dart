@@ -17,6 +17,7 @@ const coachesTitle = "Caoches list";
 const studentsTitle = "Students list";
 const classesTitle = "Classes list";
 const mySessionsTitle = "My Sessions";
+const myClassesTitle = "My Classes";
 
 // Images
 Image appLogo = Image.asset('assets/images/logo.jpg');
