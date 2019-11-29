@@ -1,3 +1,4 @@
+import 'Class.dart';
 import 'Session.dart';
 
 class Profile {
@@ -14,6 +15,7 @@ class Profile {
   String _coachDescription;
 
   Session _session;
+  Class _class;
 
   Profile({
     this.token,
@@ -98,5 +100,13 @@ class Profile {
 
   setSession(Session _session) {
     this._session = _session;
+  }
+
+  getClass() {
+    return _class;
+  }
+
+  setClass(Class _class) {
+    this._class = _class;
   }
 }
