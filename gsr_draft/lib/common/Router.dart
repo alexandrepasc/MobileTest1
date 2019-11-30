@@ -5,6 +5,7 @@ import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../view/adminView/AdminCoachesListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
+import '../view/ClassDetailPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SessionDetailPage.dart';
 import '../view/SplashPage.dart';
@@ -36,6 +37,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.userMyClassesPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => UserMyClassesPage(profile: _profile,));
+    case routes.classDetailPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => ClassDetailPage(profile: _profile,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(

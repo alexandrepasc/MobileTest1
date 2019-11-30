@@ -6,3 +6,4 @@ const String adminCoachesListPageTag = 'Admin Coaches Page';
 const String sessionDetailPageTag = 'Session Detail Page';
 const String userMySessionsPageTag = 'My Sessions Page';
 const String userMyClassesPageTag = 'My Classes Page';
+const String classDetailPageTag = 'Class Detail Page';

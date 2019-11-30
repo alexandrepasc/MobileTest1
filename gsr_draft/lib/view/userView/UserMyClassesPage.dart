@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gsr_draft/model/ClassModel.dart' as clasModel;
 
 import '../../common/AdminDrawerListEnum.dart';
+import '../../common/Class.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
 import '../../common/RoutePaths.dart' as routes;
@@ -24,6 +25,12 @@ class UserMyClassesPage extends StatefulWidget {
 class _UserMyClassesPage extends State<UserMyClassesPage> {
   final NavigationService _navigationService = locator<NavigationService>();
 
+  var _future;
+  initState() {
+    super.initState();
+    _future = _getClasses(widget.profile);
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -36,21 +43,21 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new FutureBuilder<ClassesModel>(
-                future: _getClasses(widget.profile),
+                future: _future,
                 initialData: new ClassesModel(),
                 builder: (context, AsyncSnapshot<ClassesModel> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                      print("none");
+                      print("UserMyClassesPage: none");
                       //return Text("none");
                       return loadingCircle();
                     case ConnectionState.waiting:
-                      print("waiting");
+                      print("UserMyClassesPage: waiting");
                       return loadingCircle();
                     case ConnectionState.active:
                       return Text("active");
                     case ConnectionState.done:
-                      print("yap1");
+                      print("UserMyClassesPage: yap1");
                       //print(snapshot.data.classes.length);
                       //String a = snapshot.data;
                       //print(sessions.sessions[0].name);
@@ -59,10 +66,10 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
                       return _getClassesTable();
                     default:
                       if (snapshot.hasError) {
-                        print("error: ${snapshot.error}");
+                        print("UserMyClassesPage: error: ${snapshot.error}");
                         return Text("Error");
                       }
-                      print("nop");
+                      print("UserMyClassesPage: nop");
                       return loadingCircle();
                   }
                 }
@@ -93,16 +100,16 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
         }
 
       } else if (response.statusCode == 401) {
-        print("cod 401");
+        print("UserMyClassesPage: cod 401");
         _navigationService.navigateToAndRemove(routes.loginPageTag);
         return null;
       } else {
-        print(response.statusCode);
+        print("UserMyClassesPage: " + response.statusCode.toString());
         return null;
       }
 
     }).catchError((error) {
-      print(error);
+      print("UserMyClassesPage: " + error);
       return null;
     });
   }
@@ -154,26 +161,26 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
         ),
       ),
       onTap: () {
-        //_openSessionDetail(sessionModel);
+        _openClassDetail(_class);
       }
   );
 
-  /*_openClassDetail(ClassModel _class) {
-    if (sessionModel != null) {
-      Session session = new Session(
-          sessionModel.id,
-          sessionModel.classId,
-          sessionModel.coachId,
-          sessionModel.name,
-          sessionModel.summary,
-          sessionModel.date,
-          sessionModel.className
+  _openClassDetail(ClassModel _class) {
+    if (_class != null) {
+      print("UserMyClassesPage students: " + _class.students[0]);
+      Class classProfile = new Class(
+        _class.id,
+        _class.name,
+        _class.description,
+        _class.coachId,
+        _class.students
       );
+      print("UserMyClassesPage students: " + classProfile.getStudents()[0]);
 
       Profile profile = widget.profile;
-      profile.setSession(session);
+      profile.setClass(classProfile);
 
-      _navigationService.navigateTo(routes.sessionDetailPageTag, arguments: profile);
+      _navigationService.navigateTo(routes.classDetailPageTag, arguments: profile);
     }
-  }*/
+  }
 }

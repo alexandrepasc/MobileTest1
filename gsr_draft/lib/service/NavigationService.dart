@@ -15,6 +15,10 @@ class NavigationService {
     return navigatorKey.currentState.pushReplacementNamed(routeName);
   }
 
+  Future<dynamic> navigateToAndClear(String routeName, {dynamic arguments}) {
+    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false, arguments: arguments);
+  }
+
   bool goBack() {
     return navigatorKey.currentState.pop();
   }
