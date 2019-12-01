@@ -36,7 +36,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
         appBar: applicationBar(),
         drawer: adminDrawer(widget.profile, AdminDrawerListEnum.none, context),
         body: Center(
-
+          child: _orientationBuilder(),
         ),
     );
   }
