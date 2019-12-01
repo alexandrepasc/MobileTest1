@@ -40,3 +40,10 @@ Future<http.Response> getSessionPresences(String token, String id) async {
   );
   return response;
 }
+
+Future<http.Response> getSessionsByClass(String token, String id) async {
+  final response = await http.get(new Uri.http("$apiUrl", "$sessionsEndPoint/class/$id"),
+    headers: getHeaderWithToken(token),
+  );
+  return response;
+}
