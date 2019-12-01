@@ -9,6 +9,7 @@ import '../view/ClassDetailPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SessionDetailPage.dart';
 import '../view/SplashPage.dart';
+import '../view/StudentDetailPage.dart';
 import '../view/userView/UserDashboardPage.dart';
 import '../view/userView/UserMyClassesPage.dart';
 import '../view/userView/UserMySessionsPage.dart';
@@ -40,6 +41,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.classDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => ClassDetailPage(profile: _profile,));
+    case routes.studentDetailPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => StudentDetailPage(profile: _profile,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(
