@@ -203,7 +203,32 @@ class _ClassDetailPage extends State<ClassDetailPage> {
   );
 
   Card _getStudentsCard() => Card(
-    child: _getStudentsTable(),
+    child: new FutureBuilder(
+      future: _future,
+      //initialData: new SessionsModel(),
+      builder: (context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            print("ClassDetailPage: none");
+            return loadingCircle();
+          case ConnectionState.waiting:
+            print("ClassDetailPage: waiting");
+            return loadingCircle();
+          case ConnectionState.active:
+            return Text("active");
+          case ConnectionState.done:
+            print("ClassDetailPage: yap1");
+            return _getStudentsTable();
+          default:
+            if (snapshot.hasError) {
+              print("UserMyClassesPage: error: ${snapshot.error}");
+              return Text("Error");
+            }
+            print("ClassDetailPage: nop");
+            return loadingCircle();
+        }
+      },
+    )
   );
 
   List<Text> _getStudentsTxt() {
