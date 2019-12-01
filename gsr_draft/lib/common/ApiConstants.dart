@@ -10,3 +10,5 @@ const sessionsEndPoint = "/sessions";
 const classesEndPoint = "/classes";
 
 const presencesEndPoint = "/presences";
+
+const studentsEndPoint = "/students";
