@@ -33,6 +33,9 @@ class StudentModel {
   );
 }
 
+//GET: STUDENTS
+StudentsModel getStudentsFromJson(String str) => StudentsModel.fromJson(json.decode(str));
+
 class StudentsModel {
 
   final List<StudentModel> students;
