@@ -21,6 +21,7 @@ const myClassesTitle = "My Classes";
 
 // Images
 Image appLogo = Image.asset('assets/images/logo.jpg');
+Image studentLogo = Image.asset('assets/images/silhouette-swimmer-17.png');
 
 // Sizes
 const bigRadius = 80.0;
