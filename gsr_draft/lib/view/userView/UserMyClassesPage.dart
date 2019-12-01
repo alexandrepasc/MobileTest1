@@ -26,6 +26,7 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
   final NavigationService _navigationService = locator<NavigationService>();
 
   var _future;
+  @override
   initState() {
     super.initState();
     _future = _getClasses(widget.profile);
@@ -108,10 +109,10 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
         return null;
       }
 
-    }).catchError((error) {
-      print("UserMyClassesPage: " + error);
-      return null;
-    });
+      }).catchError((error) {
+        print("UserMyClassesPage: " + error);
+        return null;
+      });
   }
 
   Widget _getClassesTable() => DataTable(
@@ -167,7 +168,7 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
 
   _openClassDetail(ClassModel _class) {
     if (_class != null) {
-      print("UserMyClassesPage students: " + _class.students[0]);
+      //print("UserMyClassesPage students: " + _class.students[0]);
       Class classProfile = new Class(
         _class.id,
         _class.name,
@@ -175,7 +176,7 @@ class _UserMyClassesPage extends State<UserMyClassesPage> {
         _class.coachId,
         _class.students
       );
-      print("UserMyClassesPage students: " + classProfile.getStudents()[0]);
+      //print("UserMyClassesPage students: " + classProfile.getStudents()[0]);
 
       Profile profile = widget.profile;
       profile.setClass(classProfile);
