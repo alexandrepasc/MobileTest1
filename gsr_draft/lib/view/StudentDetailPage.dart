@@ -4,9 +4,11 @@ import 'package:gsr_draft/model/StudentsModel.dart' as studModel;
 import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
+import '../common/RolesEnum.dart';
 import '../common/Student.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
+import '../component/BuildTable.dart';
 import '../component/LoadingCircle.dart';
 import '../Locator.dart';
 import '../model/StudentsModel.dart';
@@ -67,19 +69,61 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       decoration: formDecoration(),
     );
 
-    Card _getCard1() => Card(
+    var descriptionController = TextEditingController();
+    descriptionController.text = _student.getDescription();
+    TextField _getDescription() => TextField(
+      keyboardType: TextInputType.multiline,
+      maxLines: 5,
+      controller: descriptionController,
+      readOnly: _readOnly,
+      decoration: formDecoration(),
+    );
+
+    Card _getPersonalData() => Card(
       child: ListView(
         children: <Widget>[
           logo,
-          SizedBox(height: bigRadius),
+          SizedBox(height: mediumHeight),
           _infoText("First Name:"),
+          SizedBox(height: smallHeight),
           _getFirstNameInput(),
           SizedBox(height: buttonHeight),
           _infoText("Last Name:"),
+          SizedBox(height: smallHeight),
           _getLastNameInput(),
           SizedBox(height: buttonHeight),
           _infoText("Birth Date:"),
+          SizedBox(height: smallHeight),
           _getBirthDateInput(),
+          SizedBox(height: buttonHeight),
+          _infoText("Description:"),
+          SizedBox(height: smallHeight),
+          _getDescription(),
+        ],
+      ),
+    );
+
+
+
+    var activeClassController = TextEditingController();
+    activeClassController.text = _student.getActiveClass();
+    TextFormField _getActiveClassInput() => TextFormField(
+      controller: activeClassController,
+      keyboardType: TextInputType.text,
+      maxLines: 1,
+      readOnly: _readOnly,
+      decoration: formDecoration(),
+    );
+
+    Card _getClassData() => Card(
+      child: ListView(
+        children: <Widget>[
+          SizedBox(height: bigRadius),
+          _titleText("Active Class:"),
+          SizedBox(height: smallHeight),
+          _getActiveClassInput(),
+          SizedBox(height: bigRadius),
+          _getClassesHistory(),
         ],
       ),
     );
@@ -89,11 +133,15 @@ class _StudentDetailPage extends State<StudentDetailPage> {
           return GridView.count(
             crossAxisCount: orientation == Orientation.portrait ? 1 : 2,
             children: <Widget>[
-              _getCard1(),
+              _getPersonalData(),
+              _getClassData(),
+              _getButtons(),
             ],
           );
         }
     );
+
+
 
     return Scaffold(
         backgroundColor: appWhiteColor,
@@ -118,6 +166,49 @@ class _StudentDetailPage extends State<StudentDetailPage> {
         fontWeight: FontWeight.bold,
         fontSize: 16.0),
     textAlign: TextAlign.left,
+  );
+
+  Text _titleText(String txt) => Text(
+    txt,
+    style: TextStyle(
+        color: appDarkRedColor,
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0),
+    textAlign: TextAlign.left,
+  );
+
+  DataTable _getClassesHistory() => DataTable(
+    columns: [
+      topRowCell("Classes History:", 20.0),
+    ],
+    rows: [...buildRowsStudentsDetailClassHistory(_student.getClasses())],
+  );
+
+  _getButtons() {
+    if (hasCoordinator(widget.profile.getRoles())) {
+      return _getEditButton();
+    } else {
+      return SizedBox(height: buttonHeight);
+    }
+  }
+
+  Column _getEditButton() => Column(
+    children: <Widget>[
+      SizedBox(height: buttonHeight),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          FloatingActionButton(
+            child: Icon(Icons.edit),
+            backgroundColor: appDarkRedColor,
+            /*onPressed: () {
+              setEdit(false, 1);
+            },*/
+            heroTag: "edit",
+          ),
+        ],
+      ),
+    ],
   );
 
   InputDecoration formDecoration() => InputDecoration(
