@@ -10,3 +10,10 @@ Future<http.Response> getStudent(String token, String id) async {
   );
   return response;
 }
+
+Future<http.Response> getStudents(String token) async {
+  final response = await http.get(new Uri.http("$apiUrl", "$studentsEndPoint"),
+    headers: getHeaderWithToken(token),
+  );
+  return response;
+}
