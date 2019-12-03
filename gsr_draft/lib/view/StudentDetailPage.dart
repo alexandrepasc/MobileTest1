@@ -23,6 +23,8 @@ class StudentDetailPage extends StatefulWidget {
   _StudentDetailPage createState() => _StudentDetailPage();
 }
 
+ContentData contentData = new ContentData();
+
 class _StudentDetailPage extends State<StudentDetailPage> {
   final NavigationService _navigationService = locator<NavigationService>();
 
@@ -34,15 +36,23 @@ class _StudentDetailPage extends State<StudentDetailPage> {
   initState() {
     super.initState();
     _student = widget.profile.getStudent();
+    contentData.setFirstName(_student.getFirstName());
+    contentData.setLastName(_student.getLastName());
+
+    contentData.setDescription(_student.getDescription());
+    contentData.setActiveClass(_student.getActiveClass());
   }
 
   @override
   Widget build(BuildContext context) {
 
     var firstNameController = TextEditingController();
-    firstNameController.text = _student.getFirstName();
+    firstNameController.text = contentData.getFirstName();
     TextFormField _getFirstNameInput() => TextFormField(
       controller: firstNameController,
+      onChanged: (text) {
+        contentData.setFirstName(text);
+      },
       keyboardType: TextInputType.text,
       maxLines: 1,
       readOnly: _readOnly,
@@ -50,9 +60,12 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     );
 
     var lastNameController = TextEditingController();
-    lastNameController.text = _student.getLastName();
+    lastNameController.text = contentData.getLastName();
     TextFormField _getLastNameInput() => TextFormField(
       controller: lastNameController,
+      onChanged: (text) {
+        contentData.setLastName(text);
+      },
       keyboardType: TextInputType.text,
       maxLines: 1,
       readOnly: _readOnly,
@@ -70,8 +83,11 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     );
 
     var descriptionController = TextEditingController();
-    descriptionController.text = _student.getDescription();
+    descriptionController.text = contentData.getDescription();
     TextField _getDescription() => TextField(
+      onChanged: (text) {
+        contentData.setDescription(text);
+      },
       keyboardType: TextInputType.multiline,
       maxLines: 5,
       controller: descriptionController,
@@ -106,9 +122,12 @@ class _StudentDetailPage extends State<StudentDetailPage> {
 
 
     var activeClassController = TextEditingController();
-    activeClassController.text = _student.getActiveClass();
+    activeClassController.text = contentData.getActiveClass();
     TextFormField _getActiveClassInput() => TextFormField(
       controller: activeClassController,
+      onChanged: (text) {
+        contentData.setActiveClass(text);
+      },
       keyboardType: TextInputType.text,
       maxLines: 1,
       readOnly: _readOnly,
@@ -135,7 +154,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
             children: <Widget>[
               _getPersonalData(),
               _getClassData(),
-              _getButtons(),
+              _checkPermissions(),
             ],
           );
         }
@@ -184,11 +203,36 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     rows: [...buildRowsStudentsDetailClassHistory(_student.getClasses())],
   );
 
-  _getButtons() {
+
+
+  int _index = 0;
+
+  setEdit(bool _notRead, int _show) {
+    _readOnly = _notRead;
+    _index = _show;
+
+    setState(() {
+
+    });
+    print("setEdit");
+  }
+
+  _checkPermissions() {
     if (hasCoordinator(widget.profile.getRoles())) {
-      return _getEditButton();
+      return _getButtons();
     } else {
       return SizedBox(height: buttonHeight);
+    }
+  }
+
+  _getButtons() {
+    switch (_index) {
+      case 0:
+        return _getEditButton();
+      case 1:
+        return _getSaveCancelButton();
+      default:
+        return null;
     }
   }
 
@@ -201,15 +245,51 @@ class _StudentDetailPage extends State<StudentDetailPage> {
           FloatingActionButton(
             child: Icon(Icons.edit),
             backgroundColor: appDarkRedColor,
-            /*onPressed: () {
+            onPressed: () {
               setEdit(false, 1);
-            },*/
+            },
             heroTag: "edit",
           ),
         ],
       ),
     ],
   );
+
+  Column _getSaveCancelButton() => Column(
+    children: <Widget>[
+      SizedBox(height: buttonHeight),
+      Row(
+        children: <Widget>[
+          FloatingActionButton(
+            child: Icon(Icons.check),
+            backgroundColor: Colors.green,
+            onPressed: () {
+              //print(_summaryController.text);
+              //summaryData.set(_summaryController.text);
+              //_callApi(widget.profile.getToken(), widget.profile.getSession().getId(), summaryData.get(), context);
+              setEdit(true, 0);
+            },
+            heroTag: "save",
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.clear),
+            backgroundColor: Colors.red,
+            onPressed: () {
+              contentData.setFirstName(_student.getFirstName());
+              contentData.setLastName(_student.getLastName());
+
+              contentData.setDescription(_student.getDescription());
+              contentData.setActiveClass(_student.getActiveClass());
+              setEdit(true, 0);
+            },
+            heroTag: "cancel",
+          ),
+        ],
+      ),
+    ],
+  );
+
+
 
   InputDecoration formDecoration() => InputDecoration(
     hintText: userNameHintText,
@@ -227,4 +307,53 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
     ),
   );
+}
+
+class ContentData {
+
+  String _firstName;
+  String _lastName;
+  int _birthDate;
+  String _description;
+  String _activeClass;
+
+  getFirstName() {
+    return _firstName;
+  }
+
+  setFirstName(String _firstName) {
+    this._firstName = _firstName;
+  }
+
+  getLastName() {
+    return _lastName;
+  }
+
+  setLastName(String _lastName) {
+    this._lastName = _lastName;
+  }
+
+  getBirthDate() {
+    return _birthDate;
+  }
+
+  setBirthDate(int _birthDate) {
+    this._birthDate = _birthDate;
+  }
+
+  getDescription() {
+    return _description;
+  }
+
+  setDescription(String _description) {
+    this._description = _description;
+  }
+
+  getActiveClass() {
+    return _activeClass;
+  }
+
+  setActiveClass(String _activeClass) {
+    this._activeClass = _activeClass;
+  }
 }
