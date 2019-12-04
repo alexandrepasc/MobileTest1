@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:gsr_draft/model/StudentsModel.dart' as studModel;
+import 'package:intl/intl.dart';
 
 import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
@@ -38,7 +40,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     _student = widget.profile.getStudent();
     contentData.setFirstName(_student.getFirstName());
     contentData.setLastName(_student.getLastName());
-
+    contentData.setBirthDate(_student.getBirthDate());
     contentData.setDescription(_student.getDescription());
     contentData.setActiveClass(_student.getActiveClass());
   }
@@ -73,13 +75,13 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     );
 
     var birthDateController = TextEditingController();
-    birthDateController.text = new DateTime.fromMillisecondsSinceEpoch(_student.getBirthDate()).toString();
+    birthDateController.text = new DateFormat('dd-MM-yyyy').format(new DateTime.fromMillisecondsSinceEpoch(contentData.getBirthDate()));
     TextFormField _getBirthDateInput() => TextFormField(
       controller: birthDateController,
       keyboardType: TextInputType.text,
       maxLines: 1,
       readOnly: _readOnly,
-      decoration: formDecoration(),
+      decoration: formDecorationBirthDate(),
     );
 
     var descriptionController = TextEditingController();
@@ -203,6 +205,25 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     rows: [...buildRowsStudentsDetailClassHistory(_student.getClasses())],
   );
 
+  _getDatePicker() {
+    DatePicker.showDatePicker(
+        context,
+        showTitleActions: true,
+        minTime: DateTime(1800, 1, 1),
+        maxTime: DateTime.now(),
+        currentTime: _getDate(_student.getBirthDate()),
+        locale: LocaleType.pt
+    );
+  }
+  _getDate(int date) {
+    if (date == null) {
+      return DateTime.now();
+    } else {
+      //new DateFormat('dd-MM-yyyy').format()
+      return new DateTime.fromMillisecondsSinceEpoch(_student.getBirthDate());
+    }
+  }
+
 
 
   int _index = 0;
@@ -305,6 +326,30 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(32.0),
       borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+    ),
+  );
+
+  InputDecoration formDecorationBirthDate() => InputDecoration(
+    hintText: userNameHintText,
+    hintStyle: TextStyle(color: Colors.black38),
+    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(32.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(32.0),
+      borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(32.0),
+      borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
+    ),
+    suffixIcon: IconButton(
+        icon: Icon(Icons.date_range),
+        onPressed: () {
+          _getDatePicker();
+        },
+        color: appDarkRedColor,
     ),
   );
 }
