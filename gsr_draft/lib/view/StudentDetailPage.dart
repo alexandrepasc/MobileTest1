@@ -7,6 +7,7 @@ import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
+import '../common/RoutePaths.dart' as routes;
 import '../common/Student.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
@@ -186,7 +187,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       },
       keyboardType: TextInputType.text,
       maxLines: 1,
-      readOnly: _readOnly,
+      readOnly: true,
       decoration: formDecoration(),
     );
 
@@ -329,9 +330,11 @@ class _StudentDetailPage extends State<StudentDetailPage> {
             child: Icon(Icons.check),
             backgroundColor: Colors.green,
             onPressed: () {
-              //print(_summaryController.text);
-              //summaryData.set(_summaryController.text);
-              //_callApi(widget.profile.getToken(), widget.profile.getSession().getId(), summaryData.get(), context);
+
+              loadingCircle();
+
+              _apiUpdateStudent(widget.profile.getToken(), widget.profile.getStudent().getId(), contentData);
+
               setEdit(true, 0);
             },
             heroTag: "save",
@@ -372,6 +375,36 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
     ),
   );
+
+
+
+  Future _apiUpdateStudent(String token, String id, ContentData contentData) async {
+
+    StudentUpdateModel put = new StudentUpdateModel(
+      firstName: contentData.getFirstName(),
+      lastName: contentData.getLastName(),
+      birthDate: contentData.getBirthDate(),
+      description: contentData.getDescription(),
+    );
+
+    putStudent(token, id, put).then((response) {
+      if (response.statusCode == 200) {
+
+        print("student updated");
+
+      } else if (response.statusCode == 401) {
+        print("StudentDetailPage: cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
+      } else {
+        print("StudentDetailPage: " + response.statusCode.toString());
+        return null;
+      }
+    }).catchError((error) {
+      print("StudentDetailPage: " + error);
+      return null;
+    });
+  }
 }
 
 class ContentData {

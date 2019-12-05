@@ -55,3 +55,28 @@ class StudentsModel {
     );
   }
 }
+
+//PUT: STUDENT
+String putToJson(StudentUpdateModel data) => json.encode(data.toJson());
+
+class StudentUpdateModel {
+
+  final String firstName;
+  final String lastName;
+  final int birthDate;
+  final String description;
+
+  StudentUpdateModel({
+    this.firstName,
+    this.lastName,
+    this.birthDate,
+    this.description
+  });
+
+  Map<String, dynamic> toJson() => {
+    "firstName": firstName,
+    "lastName": lastName,
+    "birthDate": birthDate,
+    "description": description,
+  };
+}
