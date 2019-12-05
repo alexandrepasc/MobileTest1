@@ -30,7 +30,7 @@ class _AdminStudentsListPage extends State<AdminStudentsListPage> {
   @override
   initState() {
     super.initState();
-    _future = _getStudents(widget.profile);
+    //_future = _getStudents(widget.profile);
   }
 
   @override
@@ -45,7 +45,7 @@ class _AdminStudentsListPage extends State<AdminStudentsListPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               new FutureBuilder(
-                  future: _future,
+                  future: _getStudents(widget.profile),
                   builder: (context, AsyncSnapshot snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
