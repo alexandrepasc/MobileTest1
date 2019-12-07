@@ -92,7 +92,7 @@ _openStudentDetail(StudentModel student, Profile profile) {
       student.lastName,
       student.birthDate,
       student.description,
-      student.activeClass,
+      new ActiveClass(student.activeClass.classId, student.activeClass.className),
       student.classes
   );
 

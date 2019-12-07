@@ -348,7 +348,7 @@ class _ClassDetailPage extends State<ClassDetailPage> {
         _studentModel.lastName,
         _studentModel.birthDate,
         _studentModel.description,
-        _studentModel.activeClass,
+        new ActiveClass(_studentModel.activeClass.classId, _studentModel.activeClass.className),
         _studentModel.classes
     );
 
