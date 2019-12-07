@@ -43,7 +43,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
     contentData.setLastName(_student.getLastName());
     contentData.setBirthDate(_student.getBirthDate());
     contentData.setDescription(_student.getDescription());
-    contentData.setActiveClass(_student.getActiveClass());
+    contentData.setActiveClass(_student.getActiveClass().className);
   }
 
   @override

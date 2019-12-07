@@ -9,7 +9,7 @@ class StudentModel {
   final String lastName;
   final int birthDate;
   final String description;
-  final String activeClass;
+  final StudentActiveClassModel activeClass;
   final List<String> classes;
 
   StudentModel({
@@ -28,7 +28,7 @@ class StudentModel {
     lastName: json["lastName"],
     birthDate: json["birthDate"],
     description: json["description"],
-    activeClass: json["activeClass"],
+    activeClass: StudentActiveClassModel.fromJson(json["activeClass"]),
     classes: new List<String>.from(json["classes"])
   );
 }
@@ -79,4 +79,23 @@ class StudentUpdateModel {
     "birthDate": birthDate,
     "description": description,
   };
+}
+
+//GET: STUDENT ACTIVE CLASS
+StudentActiveClassModel getStudentActiveClassFromJson(String str) => StudentActiveClassModel.fromJson(json.decode(str));
+
+class StudentActiveClassModel {
+
+  final String classId;
+  final String className;
+
+  StudentActiveClassModel({
+    this.classId,
+    this.className
+  });
+
+  factory StudentActiveClassModel.fromJson(Map<String, dynamic> json) => StudentActiveClassModel(
+    classId: json["classId"],
+    className: json["className"]
+  );
 }

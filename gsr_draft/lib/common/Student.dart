@@ -1,3 +1,5 @@
+import '../model/StudentsModel.dart';
+
 class Student {
 
   String _id;
@@ -5,11 +7,11 @@ class Student {
   String _lastName;
   int _birthDate;
   String _description;
-  String _activeClass;
+  StudentActiveClassModel _activeClass;
   List<String> _classes;
 
   Student(String _id, String _firstName, String _lastName, int _birthDate,
-      String _description, String _activeClass, List<String> _classes) {
+      String _description, StudentActiveClassModel _activeClass, List<String> _classes) {
 
     setId(_id);
     setFirstName(_firstName);
@@ -64,7 +66,7 @@ class Student {
     return _activeClass;
   }
 
-  setActiveClass(String _activeClass) {
+  setActiveClass(StudentActiveClassModel _activeClass) {
     this._activeClass = _activeClass;
   }
 
