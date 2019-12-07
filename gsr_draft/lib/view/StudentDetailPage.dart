@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:gsr_draft/model/ClassModel.dart';
+import 'package:gsr_draft/model/ClassModel.dart' as clasModel;
 import 'package:gsr_draft/model/StudentsModel.dart' as studModel;
 import 'package:intl/intl.dart';
 
@@ -15,6 +17,7 @@ import '../component/BuildTable.dart';
 import '../component/LoadingCircle.dart';
 import '../Locator.dart';
 import '../model/StudentsModel.dart';
+import '../service/ClassService.dart';
 import '../service/NavigationService.dart';
 import '../service/StudentsService.dart';
 
@@ -35,15 +38,21 @@ class _StudentDetailPage extends State<StudentDetailPage> {
 
   bool _readOnly = true;
 
+  var _future;
+
   @override
   initState() {
     super.initState();
+
+    _future = _apiGetClasses(widget.profile.getToken());
+
     _student = widget.profile.getStudent();
     contentData.setFirstName(_student.getFirstName());
     contentData.setLastName(_student.getLastName());
     contentData.setBirthDate(_student.getBirthDate());
     contentData.setDescription(_student.getDescription());
-    contentData.setActiveClass(_student.getActiveClass().className);
+    contentData.setActiveClass(_student.getActiveClass().getName());
+    contentData.setActiveClassId(_student.getActiveClass().getId());
   }
 
   @override
@@ -191,16 +200,51 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       decoration: formDecoration(),
     );
 
+    DropdownButton _getActiveClassDrop(ClassesModel _classes) => DropdownButton<String>(
+      items: _dropMenuList(_classes),
+      onChanged: _readOnly ? null : (value) => setState(() => contentData.setActiveClassId(value)),
+      value: contentData.getActiveClassId(),
+      isExpanded: true,
+      hint: Text(contentData.getActiveClass()),
+    );
+
+    ListView _classDataContent() => ListView(
+      children: <Widget>[
+        SizedBox(height: bigRadius),
+        _titleText("Active Class:"),
+        SizedBox(height: smallHeight),
+        //_getActiveClassInput(),
+        _getActiveClassDrop(_classesModel),
+        SizedBox(height: bigRadius),
+        _getClassesHistory(),
+      ],
+    );
+
     Card _getClassData() => Card(
-      child: ListView(
-        children: <Widget>[
-          SizedBox(height: bigRadius),
-          _titleText("Active Class:"),
-          SizedBox(height: smallHeight),
-          _getActiveClassInput(),
-          SizedBox(height: bigRadius),
-          _getClassesHistory(),
-        ],
+      child: new FutureBuilder(
+          future: _future,
+          builder: (context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                print("StudentDetailPage: none");
+                return loadingCircle();
+              case ConnectionState.waiting:
+                print("StudentDetailPage: waiting");
+                return loadingCircle();
+              case ConnectionState.active:
+                return Text("active");
+              case ConnectionState.done:
+                print("StudentDetailPage: yap1");
+                return _classDataContent();
+              default:
+                if (snapshot.hasError) {
+                  print("StudentDetailPage: error: ${snapshot.error}");
+                  return Text("Error");
+                }
+                print("StudentDetailPage: nop");
+                return loadingCircle();
+            }
+          },
       ),
     );
 
@@ -267,6 +311,31 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       //new DateFormat('dd-MM-yyyy').format()
       return new DateTime.fromMillisecondsSinceEpoch(_student.getBirthDate());
     }
+  }
+
+  List<DropdownMenuItem<String>> _dropMenuList(ClassesModel _classes) {
+
+    List<DropdownMenuItem<String>> _list = new List();
+
+    if (_classes.classes.length > 0) {
+      _classes.classes.forEach((_class) {
+        _list.add(
+            DropdownMenuItem(
+              value: _class.id,
+              child: Text(_class.name),
+            )
+        );
+      });
+    } else {
+      _list.add(
+          DropdownMenuItem(
+            value: "none",
+            child: Text("No data"),
+          )
+      );
+    }
+
+    return _list;
   }
 
 
@@ -347,7 +416,8 @@ class _StudentDetailPage extends State<StudentDetailPage> {
               contentData.setLastName(_student.getLastName());
               contentData.setBirthDate(_student.getBirthDate());
               contentData.setDescription(_student.getDescription());
-              contentData.setActiveClass(_student.getActiveClass());
+              contentData.setActiveClass(_student.getActiveClass().getName());
+              contentData.setActiveClassId(_student.getActiveClass().getId());
               setEdit(true, 0);
             },
             heroTag: "cancel",
@@ -377,6 +447,31 @@ class _StudentDetailPage extends State<StudentDetailPage> {
   );
 
 
+
+  ClassesModel _classesModel;
+
+  Future<ClassesModel> _apiGetClasses(String token) async {
+
+    await getClasses(token).then((response) {
+      if (response.statusCode == 200) {
+
+        _classesModel = clasModel.getFromJson(response.body);
+
+        return _classesModel;
+
+      } else if (response.statusCode == 401) {
+        print("StudentDetailPage: cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
+      } else {
+        print("StudentDetailPage: " + response.statusCode.toString());
+        return null;
+      }
+    }).catchError((error) {
+      print("StudentDetailPage: " + error);
+      return null;
+    });
+  }
 
   Future _apiUpdateStudent(String token, String id, ContentData contentData) async {
 
@@ -414,6 +509,7 @@ class ContentData {
   int _birthDate;
   String _description;
   String _activeClass;
+  String _activeClassId;
 
   getFirstName() {
     return _firstName;
@@ -453,5 +549,13 @@ class ContentData {
 
   setActiveClass(String _activeClass) {
     this._activeClass = _activeClass;
+  }
+
+  getActiveClassId() {
+    return _activeClassId;
+  }
+
+  setActiveClassId(String _activeClassId) {
+    this._activeClassId = _activeClassId;
   }
 }
