@@ -74,7 +74,7 @@ Widget adminDashboardButton(Profile _profile, BuildContext context) => Card(
     trailing: Icon(Icons.arrow_forward_ios),
     onTap: () {
       Navigator.pop(context);
-      _navigationService.navigateToAndClear(routes.userDashboardPageTag, arguments: _profile);
+      _navigationService.navigateToAndClear(routes.adminDashboardPageTag, arguments: _profile);
     },
   ),
 );

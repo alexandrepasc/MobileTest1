@@ -20,7 +20,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case routes.loginPageTag:
       return MaterialPageRoute(builder: (context) => LoginPage());
-    case routes.dashboardPageTag:
+    case routes.adminDashboardPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => DashboardPage(profile: _profile,));
     case routes.userDashboardPageTag:

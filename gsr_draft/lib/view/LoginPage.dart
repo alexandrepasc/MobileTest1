@@ -68,7 +68,7 @@ class LoginPage extends StatelessWidget {
                   }
 
                   if (isAdmin(_profile.getRoles())) {
-                    _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                    _navigationService.navigateToAndRemove(routes.adminDashboardPageTag, arguments: _profile);
                   }
 
                   if (isCoordinator(_profile.getRoles())) {
@@ -89,7 +89,7 @@ class LoginPage extends StatelessWidget {
               saveFile(_profile.getToken());
 
               Navigator.pop(context);
-              _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+              _navigationService.navigateToAndRemove(routes.adminDashboardPageTag, arguments: _profile);
             }
 
           }
