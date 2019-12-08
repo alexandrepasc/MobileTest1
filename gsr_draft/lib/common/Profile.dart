@@ -1,4 +1,5 @@
 import 'Class.dart';
+import 'Coordinator.dart';
 import 'Session.dart';
 import 'Student.dart';
 
@@ -18,6 +19,7 @@ class Profile {
   Session _session;
   Class _class;
   Student _student;
+  Coordinator _coordinator;
 
   Profile({
     this.token,
@@ -118,5 +120,13 @@ class Profile {
 
   setStudent(Student _student) {
     this._student = _student;
+  }
+
+  getCoordinator() {
+    return _coordinator;
+  }
+
+  setCoordinator(Coordinator _coordinator) {
+    this._coordinator = _coordinator;
   }
 }
