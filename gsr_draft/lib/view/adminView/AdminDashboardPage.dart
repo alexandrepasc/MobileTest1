@@ -6,6 +6,7 @@ import '../../common/Constants.dart';
 import '../../common/Profile.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
+import '../../component/ExitAppPopUpButton.dart';
 import '../../Locator.dart';
 import '../../service/NavigationService.dart';
 
@@ -149,44 +150,70 @@ class DashboardPage extends StatelessWidget {
 //      },
     );
 
-    return Scaffold(
-        backgroundColor: appWhiteColor,
-        appBar: applicationBar(),
-        drawer: adminDrawer(profile, AdminDrawerListEnum.dashboard, context),
-        body: Center(
-              child: ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                  children: <Widget>[
-                    logo,
-                    SizedBox(height: bigRadius),
-                    Center(
-                      child: Container(
-                        width: 350.0,
-                        child: token,
+    Future<bool> onBackPressed() {
+      return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: roundedButton("No", appDarkRedColor,
+                  const Color(0xFFFFFFFF)),
+            ),
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(true),
+              child: roundedButton(" Yes ", appDarkRedColor,
+                  const Color(0xFFFFFFFF)),
+            ),
+          ],
+        ),
+      ) ??
+          false;
+    }
+
+    return WillPopScope(
+        child: Scaffold(
+            backgroundColor: appWhiteColor,
+            appBar: applicationBar(),
+            drawer: adminDrawer(profile, AdminDrawerListEnum.dashboard, context),
+            body: Center(
+                child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                    children: <Widget>[
+                      logo,
+                      SizedBox(height: bigRadius),
+                      Center(
+                        child: Container(
+                          width: 350.0,
+                          child: token,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Container(
-                        width: 350.0,
-                        child: id,
+                      Center(
+                        child: Container(
+                          width: 350.0,
+                          child: id,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Container(
-                        width: 350.0,
-                        child: username,
+                      Center(
+                        child: Container(
+                          width: 350.0,
+                          child: username,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Container(
-                        width: 350.0,
-                        child: name,
+                      Center(
+                        child: Container(
+                          width: 350.0,
+                          child: name,
+                        ),
                       ),
-                    ),
-                  ]
-              )
-          )
+                    ]
+                )
+            )
+        ),
+        onWillPop: onBackPressed,
     );
   }
 }
