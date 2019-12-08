@@ -6,6 +6,7 @@ import '../common/AdminDrawerListEnum.dart';
 import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
+import '../common/Student.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
 import '../component/LoadingCircle.dart';
@@ -322,9 +323,9 @@ class _ClassDetailPage extends State<ClassDetailPage> {
         fontSize: 16.0,
       ),
     ),
-    /*onTap: () {
-        _openClassDetail(_class);
-      }*/
+    onTap: () {
+      _openStudentDetail(studentModel);
+    }
   );
 
   DataColumn topRowCell(String txt, double size) => DataColumn(
@@ -338,4 +339,22 @@ class _ClassDetailPage extends State<ClassDetailPage> {
       textAlign: TextAlign.center,
     ),
   );
+
+  _openStudentDetail(StudentModel _studentModel) {
+
+    Student _student = new Student(
+        _studentModel.id,
+        _studentModel.firstName,
+        _studentModel.lastName,
+        _studentModel.birthDate,
+        _studentModel.description,
+        new ActiveClass(_studentModel.activeClass.classId, _studentModel.activeClass.className),
+        _studentModel.classes
+    );
+
+    Profile _profile = widget.profile;
+    _profile.setStudent(_student);
+
+    _navigationService.navigateTo(routes.studentDetailPageTag, arguments: _profile);
+  }
 }

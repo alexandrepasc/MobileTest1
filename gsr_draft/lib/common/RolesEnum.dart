@@ -40,6 +40,15 @@ bool isCoordinator(List<String> roles) {
   return false;
 }
 
+bool hasCoordinator(List<String> roles) {
+
+  if (roles.contains(RolesName[Roles.ROLE_COORDINATOR])) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 bool isAdmin(List<String> roles) {
 
   if (roles.contains(RolesName[Roles.ROLE_ADMIN])) {

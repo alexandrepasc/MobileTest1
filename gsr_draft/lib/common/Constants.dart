@@ -21,10 +21,13 @@ const myClassesTitle = "My Classes";
 
 // Images
 Image appLogo = Image.asset('assets/images/logo.jpg');
+Image studentLogo = Image.asset('assets/images/silhouette-swimmer-17.png');
 
 // Sizes
 const bigRadius = 80.0;
 const buttonHeight = 24.0;
+const mediumHeight = 40.0;
+const smallHeight = 10.0;
 
 // Pages
 //const loginPageTag = 'Login Page';
