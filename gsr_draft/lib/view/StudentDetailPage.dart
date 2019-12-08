@@ -202,7 +202,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
 
     DropdownButton _getActiveClassDrop(ClassesModel _classes) => DropdownButton<String>(
       items: _dropMenuList(_classes),
-      onChanged: _readOnly ? null : (value) => setState(() => contentData.setActiveClassId(value)),
+      onChanged: _readOnly ? null : (value) => setState(() => setActiveClass(value)),
       value: contentData.getActiveClassId(),
       isExpanded: true,
       hint: Text(contentData.getActiveClass()),
@@ -480,6 +480,7 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       lastName: contentData.getLastName(),
       birthDate: contentData.getBirthDate(),
       description: contentData.getDescription(),
+      activeClass: new StudentActiveClassUpdateModel(id: contentData.getActiveClassId())
     );
 
     putStudent(token, id, put).then((response) {
@@ -499,6 +500,19 @@ class _StudentDetailPage extends State<StudentDetailPage> {
       print("StudentDetailPage: " + error);
       return null;
     });
+  }
+
+  setActiveClass(String id) {
+
+    _classesModel.classes.forEach((_class) {
+
+      if (_class.id == id) {
+
+        contentData.setActiveClass(_class.name);
+        contentData.setActiveClassId(id);
+      }
+    });
+
   }
 }
 

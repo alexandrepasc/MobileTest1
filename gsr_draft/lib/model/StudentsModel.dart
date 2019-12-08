@@ -65,12 +65,14 @@ class StudentUpdateModel {
   final String lastName;
   final int birthDate;
   final String description;
+  final StudentActiveClassUpdateModel activeClass;
 
   StudentUpdateModel({
     this.firstName,
     this.lastName,
     this.birthDate,
-    this.description
+    this.description,
+    this.activeClass
   });
 
   Map<String, dynamic> toJson() => {
@@ -78,6 +80,16 @@ class StudentUpdateModel {
     "lastName": lastName,
     "birthDate": birthDate,
     "description": description,
+    "activeClass": activeClass
+  };
+}
+class StudentActiveClassUpdateModel {
+  final String id;
+  StudentActiveClassUpdateModel({
+    this.id
+  });
+  Map<String, dynamic> toJson() => {
+    "id": id
   };
 }
 
