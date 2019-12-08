@@ -19,3 +19,11 @@ Future<http.Response> getClassByCoach(String token, String id) async {
 
   return response;
 }
+
+Future<http.Response> getClasses(String token) async {
+  final response = await http.get(new Uri.http("$apiUrl", "$classesEndPoint"),
+    headers: getHeaderWithToken(token),
+  );
+
+  return response;
+}

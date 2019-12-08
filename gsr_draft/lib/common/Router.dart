@@ -5,10 +5,12 @@ import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../view/adminView/AdminCoachesListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
+import '../view/adminView/AdminStudentsListPage.dart';
 import '../view/ClassDetailPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SessionDetailPage.dart';
 import '../view/SplashPage.dart';
+import '../view/StudentDetailPage.dart';
 import '../view/userView/UserDashboardPage.dart';
 import '../view/userView/UserMyClassesPage.dart';
 import '../view/userView/UserMySessionsPage.dart';
@@ -28,6 +30,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.adminCoachesListPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminCoachesListPage(profile: _profile,));
+    case routes.adminStudentsListPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => AdminStudentsListPage(profile: _profile,));
     case routes.sessionDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => SessionDetailPage(profile: _profile,));
@@ -40,6 +45,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.classDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => ClassDetailPage(profile: _profile,));
+    case routes.studentDetailPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => StudentDetailPage(profile: _profile,));
     default:
       return MaterialPageRoute(
         builder: (context) => Scaffold(
