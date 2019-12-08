@@ -103,7 +103,7 @@ class _SplashState extends State<SplashPage> {
                       }
 
                       if (isAdmin(_profile.getRoles())) {
-                        _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                        _navigationService.navigateToAndRemove(routes.adminDashboardPageTag, arguments: _profile);
                       }
 
                       if (isCoordinator(_profile.getRoles())) {
@@ -117,7 +117,7 @@ class _SplashState extends State<SplashPage> {
                     _navigationService.navigateToAndRemove(routes.loginPageTag);
                   });
                 } else {
-                  _navigationService.navigateToAndRemove(routes.dashboardPageTag, arguments: _profile);
+                  _navigationService.navigateToAndRemove(routes.adminDashboardPageTag, arguments: _profile);
                 }
 
               } else {

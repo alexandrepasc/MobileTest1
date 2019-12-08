@@ -74,7 +74,7 @@ Widget adminDashboardButton(Profile _profile, BuildContext context) => Card(
     trailing: Icon(Icons.arrow_forward_ios),
     onTap: () {
       Navigator.pop(context);
-      _navigationService.navigateToAndClear(routes.userDashboardPageTag, arguments: _profile);
+      _navigationService.navigateToAndClear(routes.adminDashboardPageTag, arguments: _profile);
     },
   ),
 );
@@ -165,6 +165,14 @@ Widget adminCoachesButtonSelected() => Card(
   ),
   color: appDarkRedColor,
 );
+
+Widget adminCoordinatorsButtonHandle(Profile profile, AdminDrawerListEnum selected, BuildContext context) {
+  if (selected != AdminDrawerListEnum.coordinators) {
+    return drawerUnselectedButton(coordinatorTitle, context, routes.adminCoordinatorsListPageTag, profile);
+  } else {
+    return drawerSelectedButton(coordinatorTitle);
+  }
+}
 
 Widget adminStudentsButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   if (_selected != AdminDrawerListEnum.students) {
@@ -353,6 +361,14 @@ Widget drawerCoaches(Profile _profile, AdminDrawerListEnum _selected, BuildConte
   }
 }
 
+Widget drawerCoordinators(Profile profile, AdminDrawerListEnum selected, BuildContext context) {
+  if (isAdmin(profile.getRoles())) {
+    return adminCoordinatorsButtonHandle(profile, selected, context);
+  } else {
+
+  }
+}
+
 Widget drawerStudents(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
   if (isAdmin(_profile.getRoles())) {
     return adminStudentsButtonHandle(_profile, _selected, context);
@@ -391,6 +407,10 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
   if (drawerDashboard(_profile, _selected, context) != null) {
     _list.add(drawerDashboard(_profile, _selected, context));
   }
+
+  if (drawerCoordinators(_profile, _selected, context) != null) {
+    _list.add(drawerCoordinators(_profile, _selected, context));
+  }
   
   if (drawerCoaches(_profile, _selected, context) != null) {
     _list.add(drawerCoaches(_profile, _selected, context));
@@ -416,3 +436,32 @@ List<Widget> listDrawer(Profile _profile, AdminDrawerListEnum _selected, BuildCo
 
   return _list;
 }
+
+Widget drawerSelectedButton(String title) => Card(
+  child: ListTile(
+    title: Text(
+      title,
+      style: TextStyle(
+        color: appWhiteColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+  ),
+  color: appDarkRedColor,
+);
+
+Widget drawerUnselectedButton(String title, BuildContext context, String route, Profile profile) => Card(
+  child: ListTile(
+    title: Text(
+      title,
+      style: TextStyle(
+        color: appDarkRedColor,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios),
+    onTap: () {
+      Navigator.pop(context);
+      _navigationService.navigateTo(route, arguments: profile);
+    },
+  ),
+);

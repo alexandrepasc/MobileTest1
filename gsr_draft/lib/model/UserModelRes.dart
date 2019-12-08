@@ -25,3 +25,26 @@ class UserModelRes {
     roles: new List<String>.from(json["roles"]),
   );
 }
+
+//GET: USERS
+UsersModel getUsersFromJson(String str) => UsersModel.fromJson(json.decode(str));
+
+class UsersModel {
+
+  final List<UserModelRes> users;
+
+  UsersModel({
+    this.users,
+  });
+
+  factory UsersModel.fromJson(List<dynamic> json) {
+
+    List<UserModelRes> _users = new List<UserModelRes>();
+
+    _users = json.map((i) => UserModelRes.fromJson(i)).toList();
+
+    return new UsersModel(
+      users: _users,
+    );
+  }
+}

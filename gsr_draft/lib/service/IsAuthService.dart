@@ -5,7 +5,7 @@ import 'dart:io';
 
 import '../common/ApiConstants.dart';
 
-String isAuthEndPoint = userEndPoint + "isAuth";
+String isAuthEndPoint = userEndPoint + "/isAuth";
 
 Future<http.Response> getPost(String token) async{
   final response = await http.get(new Uri.http("$apiUrl", "$isAuthEndPoint"),
