@@ -159,13 +159,11 @@ class DashboardPage extends StatelessWidget {
           actions: <Widget>[
             new GestureDetector(
               onTap: () => Navigator.of(context).pop(false),
-              child: roundedButton("No", appDarkRedColor,
-                  const Color(0xFFFFFFFF)),
+              child: roundedButton("No", appDarkRedColor, appWhiteColor),
             ),
             new GestureDetector(
               onTap: () => Navigator.of(context).pop(true),
-              child: roundedButton(" Yes ", appDarkRedColor,
-                  const Color(0xFFFFFFFF)),
+              child: roundedButton(" Yes ", appDarkRedColor, appWhiteColor),
             ),
           ],
         ),
