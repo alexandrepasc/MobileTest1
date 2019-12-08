@@ -32,3 +32,10 @@ Future<http.Response> createPost(AuthModelReq post) async{
   );
   return response;
 }
+
+Future<http.Response> getCoordinators(String token) async{
+  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint/coordinators"),
+    headers: getHeaderWithToken(token),
+  );
+  return response;
+}
