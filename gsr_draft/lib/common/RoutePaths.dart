@@ -10,3 +10,4 @@ const String userMySessionsPageTag = 'My Sessions Page';
 const String userMyClassesPageTag = 'My Classes Page';
 const String classDetailPageTag = 'Class Detail Page';
 const String studentDetailPageTag = 'Student Detail Page';
+const String coordinatorDetailPageTag = 'Coordinator Detail Page';

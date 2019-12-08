@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../common/Constants.dart';
+import '../common/Coordinator.dart';
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../common/Student.dart';
@@ -131,25 +132,23 @@ DataCell _buildCellAdminCoordinatorsList(String txt, UserModelRes user, Profile 
         fontSize: 17.0,
       ),
     ),
-    /*onTap: () {
+    onTap: () {
       _openCoordinatorDetail(user, profile);
-    }*/
+    }
 );
 
-/*_openCoordinatorDetail(UserModelRes user, Profile profile) {
+_openCoordinatorDetail(UserModelRes user, Profile profile) {
 
-  Student _student = new Student(
-      student.id,
-      student.firstName,
-      student.lastName,
-      student.birthDate,
-      student.description,
-      new ActiveClass(student.activeClass.classId, student.activeClass.className),
-      student.classes
+  Coordinator _coordinator = new Coordinator(
+      user.id,
+      user.username,
+      user.name,
+      user.notes,
+      user.roles
   );
 
   Profile _profile = profile;
-  _profile.setStudent(_student);
+  _profile.setCoordinator(_coordinator);
 
-  _navigationService.navigateTo(routes.studentDetailPageTag, arguments: _profile);
-}*/
+  _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);
+}

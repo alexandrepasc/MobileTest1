@@ -4,12 +4,14 @@ class Coordinator {
   String _username;
   String _name;
   String _notes;
+  List<String> _roles;
 
-  Coordinator(String _id, String _username, String _name, String _notes) {
+  Coordinator(String _id, String _username, String _name, String _notes, List<String> _roles) {
     setId(_id);
     setUsername(_username);
     setName(_name);
     setNotes(_notes);
+    setRoles(_roles);
   }
 
   getId() {
@@ -42,5 +44,13 @@ class Coordinator {
 
   setNotes(String _notes) {
     this._notes = _notes;
+  }
+
+  getRoles() {
+    return _roles;
+  }
+
+  setRoles(List<String> _roles) {
+    this._roles = _roles;
   }
 }
