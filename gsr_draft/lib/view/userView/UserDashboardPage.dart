@@ -8,6 +8,7 @@ import '../../common/RoutePaths.dart' as routes;
 import '../../common/Session.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
+import '../../component/ExitAppPopUpButton.dart';
 import '../../Locator.dart';
 import '../../model/SessionModel.dart';
 import '../../model/SessionsModel.dart';
@@ -64,30 +65,55 @@ class _UserDashboard extends State<UserDashboard> {
   Widget build(BuildContext context) {
     //WidgetsBinding.instance.addPostFrameCallback((_) => _getSessions(widget.profile));
 
-    return Scaffold(
-        backgroundColor: appWhiteColor,
-        appBar: applicationBar(),
-        drawer: adminDrawer(widget.profile, AdminDrawerListEnum.userdashboard, context),
-        body: new FutureBuilder<SessionsModel>(
-            future: _getSessions(widget.profile),
-            builder: (context, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  //print("none");
-                  return Text("none");
-                case ConnectionState.waiting:
-                  //print("waiting");
-                  return new CircularProgressIndicator();
-                default:
-                  if (snapshot.hasError) {
-                    print("error: ${snapshot.error}");
-                    return Text("Error");
-                  } else {
-                    //print("yap");
-                    return _orientationBuilder();
+    Future<bool> onBackPressed() {
+      return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: roundedButton("No", appDarkRedColor, appWhiteColor),
+            ),
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(true),
+              child: roundedButton(" Yes ", appDarkRedColor, appWhiteColor),
+            ),
+          ],
+        ),
+      ) ?? false;
+    }
+
+    return WillPopScope(
+        child: Scaffold(
+            backgroundColor: appWhiteColor,
+            appBar: applicationBar(),
+            drawer: adminDrawer(widget.profile, AdminDrawerListEnum.userdashboard, context),
+            body: new FutureBuilder<SessionsModel>(
+                future: _getSessions(widget.profile),
+                builder: (context, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    //print("none");
+                      return Text("none");
+                    case ConnectionState.waiting:
+                    //print("waiting");
+                      return new CircularProgressIndicator();
+                    default:
+                      if (snapshot.hasError) {
+                        print("error: ${snapshot.error}");
+                        return Text("Error");
+                      } else {
+                        //print("yap");
+                        return _orientationBuilder();
+                      }
                   }
-              }
-            }));
+                }
+            )
+        ),
+        onWillPop: onBackPressed
+    );
   }
 
   OrientationBuilder _orientationBuilder() =>
