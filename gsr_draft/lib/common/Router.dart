@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../view/adminView/AdminCoachesListPage.dart';
+import '../view/adminView/AdminCoordinatorsListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
 import '../view/adminView/AdminStudentsListPage.dart';
 import '../view/ClassDetailPage.dart';
@@ -30,6 +31,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.adminCoachesListPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminCoachesListPage(profile: _profile,));
+    case routes.adminCoordinatorsListPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => AdminCoordinatorsListPage(profile: _profile,));
     case routes.adminStudentsListPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminStudentsListPage(profile: _profile,));
