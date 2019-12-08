@@ -7,7 +7,7 @@ import '../common/ApiUtils.dart';
 import '../model/AuthModelReq.dart';
 
 //String url = '172.17.0.3:8080';
-String authEndPoint = userEndPoint + "authenticate";
+String authEndPoint = userEndPoint + "/authenticate";
 
 //Future<AuthModelReq> getPost(String id, String token) async{
 //  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint$id"),
@@ -19,7 +19,7 @@ String authEndPoint = userEndPoint + "authenticate";
 //  return postFromJson(response.body);
 //}
 Future<http.Response> getPost(String id, String token) async{
-  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint$id"),
+  final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint/$id"),
     headers: getHeaderWithToken(token),
   );
   return response;
