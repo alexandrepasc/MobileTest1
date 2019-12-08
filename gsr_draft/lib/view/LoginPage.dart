@@ -10,12 +10,13 @@ import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
+import '../component/ExitAppPopUpButton.dart';
 import '../Locator.dart';
 import '../model/AuthModelReq.dart';
 import '../model/AuthModelRes.dart';
 import '../model/CoachModel.dart';
-import '../service/CoachService.dart' as coachServ;
 import '../model/UserModelRes.dart';
+import '../service/CoachService.dart' as coachServ;
 import '../service/AuthService.dart';
 import '../service/FileService.dart';
 import '../service/NavigationService.dart';
@@ -272,44 +273,67 @@ class LoginPage extends StatelessWidget {
       textAlign: TextAlign.center,
     );
 
-    return Scaffold(
-      backgroundColor: appWhiteColor,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: bigRadius),
-            Center(
-              child: Container(
-                width: 350.0,
-                child: userName,
-              ),
+    Future<bool> onBackPressed() {
+      return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: roundedButton("No", appDarkRedColor, appWhiteColor),
             ),
-            SizedBox(height: buttonHeight),
-            Center(
-              child: Container(
-                width: 350.0,
-                child: password,
-              ),
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(true),
+              child: roundedButton(" Yes ", appDarkRedColor, appWhiteColor),
             ),
-            SizedBox(height: buttonHeight),
-            Center(
-              child: Container(
-                width: 250.0,
-                child: loginButton,
-              ),
-            ),
-            SizedBox(height: buttonHeight),
-            Center(
-              child: Container(
-                child: feedback,
-              ),
-            )
           ],
         ),
-      ),
+      ) ?? false;
+    }
+
+    return WillPopScope(
+        child: Scaffold(
+          backgroundColor: appWhiteColor,
+          body: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 24.0, right: 24.0),
+              children: <Widget>[
+                logo,
+                SizedBox(height: bigRadius),
+                Center(
+                  child: Container(
+                    width: 350.0,
+                    child: userName,
+                  ),
+                ),
+                SizedBox(height: buttonHeight),
+                Center(
+                  child: Container(
+                    width: 350.0,
+                    child: password,
+                  ),
+                ),
+                SizedBox(height: buttonHeight),
+                Center(
+                  child: Container(
+                    width: 250.0,
+                    child: loginButton,
+                  ),
+                ),
+                SizedBox(height: buttonHeight),
+                Center(
+                  child: Container(
+                    child: feedback,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        onWillPop: onBackPressed
     );
   }
 }
