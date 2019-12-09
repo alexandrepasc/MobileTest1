@@ -48,3 +48,25 @@ class UsersModel {
     );
   }
 }
+
+//PUT: USER
+String putUserToJson(UserUpdateModel data) => json.encode(data);
+
+class UserUpdateModel {
+
+  final String username;
+  final String name;
+  final String notes;
+
+  UserUpdateModel({
+    this.username,
+    this.name,
+    this.notes
+  });
+
+  Map<String, dynamic> toJson() => {
+    "username": username,
+    "name": name,
+    "notes": notes
+  };
+}
