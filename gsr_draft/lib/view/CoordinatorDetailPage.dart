@@ -10,6 +10,8 @@ import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
 import '../component/LoadingCircle.dart';
 import '../Locator.dart';
+import '../model/UserModelRes.dart';
+import '../service/AuthService.dart';
 import '../service/NavigationService.dart';
 
 class CoordinatorDetailPage extends StatefulWidget {
@@ -212,7 +214,7 @@ class _CoordinatorDetailPage extends State<CoordinatorDetailPage> {
 
               loadingCircle();
 
-              //_apiUpdateStudent(widget.profile.getToken(), widget.profile.getStudent().getId(), contentData);
+              _apiUpdateCoordinator(widget.profile.getToken(), widget.profile.getCoordinator().getId(), contentData);
 
               setEdit(true, 0);
             },
@@ -233,6 +235,35 @@ class _CoordinatorDetailPage extends State<CoordinatorDetailPage> {
       ),
     ],
   );
+
+
+  Future _apiUpdateCoordinator(String token, String id, ContentData contentData) async {
+
+    UserUpdateModel put = UserUpdateModel(
+      username: contentData.getUsername(),
+      name: contentData.getName(),
+      notes: contentData.getNotes()
+    );
+
+    await putUser(token, id, put).then((response) {
+
+      if (response.statusCode == 200) {
+
+        print("coordinator updated");
+
+      } else if (response.statusCode == 401) {
+        print("StudentDetailPage: cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
+      } else {
+        print("CoordinatorDetailPage: " + response.statusCode.toString());
+        return null;
+      }
+    }).catchError((error) {
+      print("CoordinatorDetailPage: " + error);
+      return null;
+    });
+  }
 
 
   InputDecoration formDecoration() => InputDecoration(
