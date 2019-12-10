@@ -8,6 +8,7 @@ import '../view/adminView/AdminCoordinatorsListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
 import '../view/adminView/AdminStudentsListPage.dart';
 import '../view/ClassDetailPage.dart';
+import '../view/CoachDetailPage.dart';
 import '../view/CoordinatorDetailPage.dart';
 import '../view/LoginPage.dart';
 import '../view/SessionDetailPage.dart';
@@ -50,6 +51,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.classDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => ClassDetailPage(profile: _profile,));
+    case routes.coachDetailPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => CoachDetailPage(profile: _profile,));
     case routes.coordinatorDetailPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => CoordinatorDetailPage(profile: _profile,));
