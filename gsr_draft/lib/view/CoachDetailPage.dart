@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../common/AdminDrawerListEnum.dart';
+import '../common/Coach.dart';
 import '../common/Constants.dart';
-import '../common/Coordinator.dart';
 import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
@@ -31,5 +31,46 @@ class _CoachDetailPage extends State<CoachDetailPage> {
   @override
   Widget build(BuildContext context) {
 
+    return Scaffold(
+      backgroundColor: appWhiteColor,
+      appBar: applicationBar(),
+      drawer: adminDrawer(widget.profile, AdminDrawerListEnum.none, context),
+      bottomNavigationBar: _getBottomNavBar(),
+    );
+  }
+
+
+  int _currentIndex = 0;
+
+  BottomNavigationBar _setBottomNavBar() => BottomNavigationBar(
+    currentIndex: _currentIndex,
+    onTap: onTabTapped,
+    items: [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.account_circle),
+        title: Text("Profile"),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.lock),
+        title: Text("Authentication"),
+      ),
+    ],
+  );
+
+  Theme _getBottomNavBar() => Theme(
+    data: Theme.of(context).copyWith(
+      canvasColor: appDarkRedColor,
+      primaryColor: appDarkGreyColor,
+      textTheme: Theme.of(context).textTheme.copyWith(
+        caption: TextStyle(color: appWhiteColor),
+      ),
+    ),
+    child: _setBottomNavBar(),
+  );
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
