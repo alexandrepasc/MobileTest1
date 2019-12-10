@@ -6,6 +6,14 @@ class Coach {
   String _description;
   String _authId;
 
+  Coach(String _id, String _firstName, String _lastName, String _description, String _authId) {
+    setId(_id);
+    setFirstName(_firstName);
+    setLastName(_lastName);
+    setDescription(_description);
+    setAuthId(_authId);
+  }
+
   getId() {
     return _id;
   }
