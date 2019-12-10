@@ -6,6 +6,7 @@ import '../common/Constants.dart';
 import '../common/Profile.dart';
 import '../common/RolesEnum.dart';
 import '../common/RoutePaths.dart' as routes;
+import '../component/coachDetail/CoachDetailProfileTab.dart';
 import '../component/AdminDrawer.dart';
 import '../component/AppBar.dart';
 import '../component/LoadingCircle.dart';
@@ -35,12 +36,28 @@ class _CoachDetailPage extends State<CoachDetailPage> {
       backgroundColor: appWhiteColor,
       appBar: applicationBar(),
       drawer: adminDrawer(widget.profile, AdminDrawerListEnum.none, context),
+      body: Center(
+        child: ListView(
+          children: <Widget>[
+
+          ],
+        ),
+      ),
       bottomNavigationBar: _getBottomNavBar(),
     );
   }
 
 
   int _currentIndex = 0;
+
+  _getChildren(int x) {
+    switch (x) {
+      case 0:
+        return CoachDetailProfileTab(profile: widget.profile,);
+      /*case 1:
+        return SessionDetailAttendanceTab(profile: widget.profile,);*/
+    }
+  }
 
   BottomNavigationBar _setBottomNavBar() => BottomNavigationBar(
     currentIndex: _currentIndex,
