@@ -37,11 +37,7 @@ class _CoachDetailPage extends State<CoachDetailPage> {
       appBar: applicationBar(),
       drawer: adminDrawer(widget.profile, AdminDrawerListEnum.none, context),
       body: Center(
-        child: ListView(
-          children: <Widget>[
-              _getChildren(_currentIndex),
-          ],
-        ),
+        child: _getChildren(_currentIndex),
       ),
       bottomNavigationBar: _getBottomNavBar(),
     );

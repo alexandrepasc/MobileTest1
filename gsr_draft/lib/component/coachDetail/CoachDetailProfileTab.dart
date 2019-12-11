@@ -7,6 +7,7 @@ import '../../common/Constants.dart';
 import '../../common/Profile.dart';
 import '../../common/RolesEnum.dart';
 import '../../common/RoutePaths.dart' as routes;
+import '../../component/BuildTable.dart';
 import '../../component/LoadingCircle.dart';
 import '../../Locator.dart';
 import '../../model/ClassModel.dart';
@@ -101,24 +102,17 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
     OrientationBuilder _orientationBuilder() => OrientationBuilder(
         builder: (context, orientation) {
           return GridView.count(
-            shrinkWrap: true,
+            //shrinkWrap: true,
             crossAxisCount: orientation == Orientation.portrait ? 1 : 2,
             children: <Widget>[
               _getPersonalData(),
+              _getClasses(),
             ],
           );
         }
     );
 
-    return Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _orientationBuilder()
-          ],
-        )
-    );
+    return _orientationBuilder();
   }
 
   Text _infoText(String txt) => Text(
@@ -229,6 +223,44 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
       borderRadius: BorderRadius.circular(32.0),
       borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
     ),
+  );
+  
+
+
+  Card _getClasses() => Card(
+    child: new FutureBuilder(
+        future: _apiGetClasses(widget.profile.getToken(), _coach.getId()),
+        builder: (context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              print("CoachDetailProfileTab: none");
+              return loadingCircle();
+            case ConnectionState.waiting:
+              print("CoachDetailProfileTab: waiting");
+              return loadingCircle();
+            case ConnectionState.active:
+              return Text("active");
+            case ConnectionState.done:
+              print("CoachDetailProfileTab: yap1");
+              return _getClassesTable();
+            default:
+              if (snapshot.hasError) {
+                print("CoachDetailProfileTab: error: ${snapshot.error}");
+                return Text("Error");
+              }
+              print("CoachDetailProfileTab: nop");
+              return loadingCircle();
+          }
+        }
+    ),
+  );
+  
+  DataTable _getClassesTable() => DataTable(
+      columns: [
+        topRowCell("Name", 16.0),
+        topRowCell("Description", 16.0),
+      ], 
+      rows: [...buildRowsCoachDetailClassesList(_classesModel.classes, widget.profile)]
   );
 
   ClassesModel _classesModel;

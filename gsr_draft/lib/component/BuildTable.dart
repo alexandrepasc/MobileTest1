@@ -6,6 +6,7 @@ import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
 import '../common/Student.dart';
 import '../Locator.dart';
+import '../model/ClassModel.dart';
 import '../model/StudentsModel.dart';
 import '../model/UserModelRes.dart';
 import '../service/NavigationService.dart';
@@ -151,4 +152,52 @@ _openCoordinatorDetail(UserModelRes user, Profile profile) {
   _profile.setCoordinator(_coordinator);
 
   _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);
+}
+
+
+
+List<DataRow> buildRowsCoachDetailClassesList(List<ClassModel> classes, Profile profile) {
+
+  List<DataRow> rows = new List();
+
+  classes.forEach((classModel) {
+    rows.add(
+        DataRow(
+            cells: [
+              _buildCellCoachDetailClassesList(classModel.name, classModel, profile),
+              _buildCellCoachDetailClassesList(classModel.description, classModel, profile),
+            ]
+        )
+    );
+  });
+
+  return rows;
+}
+
+DataCell _buildCellCoachDetailClassesList(String txt, ClassModel classModel, Profile profile) => DataCell(
+    Text(
+      txt,
+      style: TextStyle(
+        fontSize: 17.0,
+      ),
+    ),
+    onTap: () {
+      _openClassDetail(classModel, profile);
+    }
+);
+
+_openClassDetail(ClassModel classModel, Profile profile) {
+
+  /*Coordinator _coordinator = new Coordinator(
+      user.id,
+      user.username,
+      user.name,
+      user.notes,
+      user.roles
+  );
+
+  Profile _profile = profile;
+  _profile.setCoordinator(_coordinator);
+
+  _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);*/
 }
