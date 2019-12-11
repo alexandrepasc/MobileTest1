@@ -107,6 +107,7 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
             children: <Widget>[
               _getPersonalData(),
               _getClasses(),
+              _getSessions(),
             ],
           );
         }
@@ -289,6 +290,45 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
       return null;
     });
   }
+
+
+
+  Card _getSessions() => Card(
+    child: new FutureBuilder(
+        future: _apiGetSessions(widget.profile.getToken(), _coach.getId()),
+        builder: (context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              print("CoachDetailProfileTab: none");
+              return loadingCircle();
+            case ConnectionState.waiting:
+              print("CoachDetailProfileTab: waiting");
+              return loadingCircle();
+            case ConnectionState.active:
+              return Text("active");
+            case ConnectionState.done:
+              print("CoachDetailProfileTab: yap1");
+              return _getSessionsTable();
+            default:
+              if (snapshot.hasError) {
+                print("CoachDetailProfileTab: error: ${snapshot.error}");
+                return Text("Error");
+              }
+              print("CoachDetailProfileTab: nop");
+              return loadingCircle();
+          }
+        }
+    ),
+  );
+
+  DataTable _getSessionsTable() => DataTable(
+      columns: [
+        topRowCell("Name", 16.0),
+        topRowCell("Class", 16.0),
+        topRowCell("Summary", 16.0),
+      ],
+      rows: [...buildRowsCoachDetailSessionsList(_sessionsModel.sessions, widget.profile)]
+  );
 
   SessionsModel _sessionsModel;
 

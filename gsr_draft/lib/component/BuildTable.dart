@@ -7,6 +7,7 @@ import '../common/RoutePaths.dart' as routes;
 import '../common/Student.dart';
 import '../Locator.dart';
 import '../model/ClassModel.dart';
+import '../model/SessionModel.dart';
 import '../model/StudentsModel.dart';
 import '../model/UserModelRes.dart';
 import '../service/NavigationService.dart';
@@ -187,6 +188,55 @@ DataCell _buildCellCoachDetailClassesList(String txt, ClassModel classModel, Pro
 );
 
 _openClassDetail(ClassModel classModel, Profile profile) {
+
+  /*Coordinator _coordinator = new Coordinator(
+      user.id,
+      user.username,
+      user.name,
+      user.notes,
+      user.roles
+  );
+
+  Profile _profile = profile;
+  _profile.setCoordinator(_coordinator);
+
+  _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);*/
+}
+
+
+
+List<DataRow> buildRowsCoachDetailSessionsList(List<SessionModel> sessions, Profile profile) {
+
+  List<DataRow> rows = new List();
+
+  sessions.forEach((session) {
+    rows.add(
+        DataRow(
+            cells: [
+              _buildCellCoachDetailSessionsList(session.name, session, profile),
+              _buildCellCoachDetailSessionsList(session.className, session, profile),
+              _buildCellCoachDetailSessionsList(session.summary, session, profile),
+            ]
+        )
+    );
+  });
+
+  return rows;
+}
+
+DataCell _buildCellCoachDetailSessionsList(String txt, SessionModel session, Profile profile) => DataCell(
+    Text(
+      txt,
+      style: TextStyle(
+        fontSize: 17.0,
+      ),
+    ),
+    onTap: () {
+      _openSessionDetail(session, profile);
+    }
+);
+
+_openSessionDetail(SessionModel session, Profile profile) {
 
   /*Coordinator _coordinator = new Coordinator(
       user.id,
