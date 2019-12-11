@@ -39,7 +39,7 @@ class _CoachDetailPage extends State<CoachDetailPage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-
+              _getChildren(_currentIndex),
           ],
         ),
       ),
