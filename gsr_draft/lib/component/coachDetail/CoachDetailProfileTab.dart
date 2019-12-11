@@ -89,11 +89,22 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
 
     Card _getPersonalData() => Card(
         child: ListView(
-            //shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
+              logo,
+              SizedBox(height: mediumHeight),
+              _infoText("First Name:"),
+              SizedBox(height: smallHeight),
               _getFirstNameInput(),
+              SizedBox(height: buttonHeight),
+              _infoText("Last Name:"),
+              SizedBox(height: smallHeight),
               _getLastNameInput(),
+              SizedBox(height: buttonHeight),
+              _infoText("Description:"),
+              SizedBox(height: smallHeight),
               _getDescriptionInput(),
+              SizedBox(height: buttonHeight),
               _checkPermissions()
             ]
         )
@@ -102,7 +113,7 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
     OrientationBuilder _orientationBuilder() => OrientationBuilder(
         builder: (context, orientation) {
           return GridView.count(
-            //shrinkWrap: true,
+            padding: EdgeInsets.all(15.0),
             crossAxisCount: orientation == Orientation.portrait ? 1 : 2,
             children: <Widget>[
               _getPersonalData(),
@@ -113,8 +124,16 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
         }
     );
 
-    return _orientationBuilder();
+    return Scrollbar(
+        child: _orientationBuilder(),
+    );
   }
+
+  final logo = CircleAvatar(
+    backgroundColor: Colors.transparent,
+    radius: bigRadius,
+    child: studentLogo,
+  );
 
   Text _infoText(String txt) => Text(
     txt,
