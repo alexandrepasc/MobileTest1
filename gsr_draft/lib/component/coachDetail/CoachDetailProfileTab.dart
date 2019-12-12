@@ -403,6 +403,9 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
         print("CoachDetailProfileTab: " + response.statusCode.toString());
         return null;
       }
+    }).catchError((error) {
+      print("CoachDetailProfileTab: " + error);
+      return null;
     });
   }
 }
