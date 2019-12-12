@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../common/Class.dart';
 import '../common/Constants.dart';
 import '../common/Coordinator.dart';
 import '../common/Profile.dart';
@@ -190,18 +191,18 @@ DataCell _buildCellCoachDetailClassesList(String txt, ClassModel classModel, Pro
 
 _openClassDetail(ClassModel classModel, Profile profile) {
 
-  /*Coordinator _coordinator = new Coordinator(
-      user.id,
-      user.username,
-      user.name,
-      user.notes,
-      user.roles
+  Class _class = new Class(
+      classModel.id,
+      classModel.name,
+      classModel.description,
+      classModel.coachId,
+      classModel.students
   );
 
   Profile _profile = profile;
-  _profile.setCoordinator(_coordinator);
+  _profile.setClass(_class);
 
-  _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);*/
+  _navigationService.navigateTo(routes.classDetailPageTag, arguments: _profile);
 }
 
 
