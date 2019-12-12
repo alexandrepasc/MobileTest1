@@ -11,8 +11,10 @@ import '../../component/BuildTable.dart';
 import '../../component/LoadingCircle.dart';
 import '../../Locator.dart';
 import '../../model/ClassModel.dart';
+import '../../model/CoachModel.dart';
 import '../../model/SessionsModel.dart';
 import '../../service/ClassService.dart';
+import '../../service/CoachService.dart';
 import '../../service/NavigationService.dart';
 import '../../service/SessionService.dart';
 
@@ -207,6 +209,7 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
               loadingCircle();
 
               //_apiUpdateCoordinator(widget.profile.getToken(), widget.profile.getCoordinator().getId(), contentData);
+              _apiUpdateCoach(widget.profile.getToken(), widget.profile.getCoach().getId(), contentData);
 
               setEdit(true, 0);
             },
@@ -373,6 +376,33 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
     }).catchError((error) {
       print("CoachDetailProfileTab: " + error);
       return null;
+    });
+  }
+
+
+
+  Future _apiUpdateCoach(String token, String id, ContentData contentData) async {
+
+    CoachUpdateModel updateModel = new CoachUpdateModel(
+      firstName: contentData.getFirstName(),
+      lastName: contentData.getLastName(),
+      description: contentData.getDescription(),
+    );
+
+    await putCoach(token, id, updateModel).then((response) {
+
+      if (response.statusCode == 200) {
+
+        print("CoachDetailProfileTab: saved");
+
+      } else if (response.statusCode == 401) {
+        print("CoachDetailProfileTab: cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
+      } else {
+        print("CoachDetailProfileTab: " + response.statusCode.toString());
+        return null;
+      }
     });
   }
 }
