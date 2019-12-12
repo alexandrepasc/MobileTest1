@@ -4,6 +4,7 @@ import '../common/Constants.dart';
 import '../common/Coordinator.dart';
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
+import '../common/Session.dart';
 import '../common/Student.dart';
 import '../Locator.dart';
 import '../model/ClassModel.dart';
@@ -238,16 +239,18 @@ DataCell _buildCellCoachDetailSessionsList(String txt, SessionModel session, Pro
 
 _openSessionDetail(SessionModel session, Profile profile) {
 
-  /*Coordinator _coordinator = new Coordinator(
-      user.id,
-      user.username,
-      user.name,
-      user.notes,
-      user.roles
+  Session _session = new Session(
+      session.id,
+      session.classId,
+      session.coachId,
+      session.name,
+      session.summary,
+      session.date,
+      session.className
   );
 
   Profile _profile = profile;
-  _profile.setCoordinator(_coordinator);
+  _profile.setSession(_session);
 
-  _navigationService.navigateTo(routes.coordinatorDetailPageTag, arguments: _profile);*/
+  _navigationService.navigateTo(routes.sessionDetailPageTag, arguments: _profile);
 }

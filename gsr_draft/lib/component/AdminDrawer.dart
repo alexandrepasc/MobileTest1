@@ -178,7 +178,7 @@ Widget adminStudentsButtonHandle(Profile _profile, AdminDrawerListEnum _selected
   if (_selected != AdminDrawerListEnum.students) {
     return adminStudentsButton(_profile, context);
   } else {
-    return adminCoachesButtonSelected();
+    return adminStudentsButtonSelected();
   }
 }
 
