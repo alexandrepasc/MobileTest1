@@ -35,3 +35,25 @@ class CoachModelRes {
     authId: json["authId"],
   );
 }
+
+//PUT: UPDATE COACH PROFILE
+String putToJson(CoachUpdateModel data) => json.encode(data.toJson());
+
+class CoachUpdateModel {
+
+  String firstName;
+  String lastName;
+  String description;
+
+  CoachUpdateModel({
+    this.firstName,
+    this.lastName,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() => {
+    "firstName": firstName,
+    "lastName": lastName,
+    "description": description,
+  };
+}
