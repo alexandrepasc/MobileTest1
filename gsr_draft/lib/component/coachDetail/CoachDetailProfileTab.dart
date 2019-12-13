@@ -208,7 +208,6 @@ class _CoachDetailProfileTab extends State<CoachDetailProfileTab> {
 
               loadingCircle();
 
-              //_apiUpdateCoordinator(widget.profile.getToken(), widget.profile.getCoordinator().getId(), contentData);
               _apiUpdateCoach(widget.profile.getToken(), widget.profile.getCoach().getId(), contentData);
 
               setEdit(true, 0);

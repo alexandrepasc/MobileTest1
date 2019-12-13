@@ -67,8 +67,6 @@ class _CoachDetailPage extends State<CoachDetailPage> {
 
   Widget _getAuthTab() {
 
-    _apiGetAuth(widget.profile.getToken(), widget.profile.getCoach().getAuthId());
-
     Auth auth = new Auth(
         _userModel.id,
         _userModel.username,
@@ -90,20 +88,20 @@ class _CoachDetailPage extends State<CoachDetailPage> {
       if (response.statusCode == 200) {
 
         _userModel = userModel.postFromJson(response.body);
-        print(_userModel.id);
+
         return _userModel;
 
       } else if (response.statusCode == 401) {
-        print("CoachDetailAuthTab: cod 401");
+        print("CoachDetailPage: cod 401");
         _navigationService.navigateToAndRemove(routes.loginPageTag);
         return null;
       } else {
-        print("CoachDetailAuthTab: " + response.statusCode.toString());
+        print("CoachDetailPage: " + response.statusCode.toString());
         return null;
       }
 
     }).catchError((error) {
-      print("CoachDetailAuthTab: " + error);
+      print("CoachDetailPage: " + error);
       return null;
     });
   }
@@ -131,7 +129,31 @@ class _CoachDetailPage extends State<CoachDetailPage> {
         caption: TextStyle(color: appWhiteColor),
       ),
     ),
-    child: _setBottomNavBar(),
+    child: new FutureBuilder(
+      future: _apiGetAuth(widget.profile.getToken(), widget.profile.getCoach().getAuthId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            print("CoachDetailProfileTab: none");
+            return loadingCircle();
+          case ConnectionState.waiting:
+            print("CoachDetailProfileTab: waiting");
+            return loadingCircle();
+          case ConnectionState.active:
+            return Text("active");
+          case ConnectionState.done:
+            print("CoachDetailProfileTab: yap1");
+            return _setBottomNavBar();
+          default:
+            if (snapshot.hasError) {
+              print("CoachDetailProfileTab: error: ${snapshot.error}");
+              return Text("Error");
+            }
+            print("CoachDetailProfileTab: nop");
+            return loadingCircle();
+        }
+      }
+    ),
   );
 
   void onTabTapped(int index) {
