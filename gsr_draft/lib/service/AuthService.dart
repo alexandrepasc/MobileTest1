@@ -21,6 +21,7 @@ String authEndPoint = userEndPoint + "/authenticate";
 //  return postFromJson(response.body);
 //}
 Future<http.Response> getPost(String id, String token) async{
+  print(apiUrl + userEndPoint + "/" + id);
   final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint/$id"),
     headers: getHeaderWithToken(token),
   );

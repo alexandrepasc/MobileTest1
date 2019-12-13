@@ -1,3 +1,4 @@
+import 'Auth.dart';
 import 'Class.dart';
 import 'Coach.dart';
 import 'Coordinator.dart';
@@ -22,6 +23,7 @@ class Profile {
   Student _student;
   Coordinator _coordinator;
   Coach _coach;
+  Auth _auth;
 
   Profile({
     this.token,
@@ -138,5 +140,13 @@ class Profile {
 
   setCoach(Coach _coach) {
     this._coach = _coach;
+  }
+
+  getAuth() {
+    return _auth;
+  }
+
+  setAuth(Auth _auth) {
+    this._auth = _auth;
   }
 }
