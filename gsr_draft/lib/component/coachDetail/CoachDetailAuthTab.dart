@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:gsr_draft/model/UserModelRes.dart' as userModel;
-
 import '../../common/Auth.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
@@ -222,7 +220,7 @@ class _CoachDetailAuthTab extends State<CoachDetailAuthTab> {
 
               loadingCircle();
 
-              //_apiUpdateCoach(widget.profile.getToken(), widget.profile.getCoach().getId(), contentData);
+              _apiUpdateAuth(widget.profile.getToken(), widget.profile.getCoach().getAuthId(), contentData);
 
               setEdit(true, 0);
             },
@@ -233,9 +231,7 @@ class _CoachDetailAuthTab extends State<CoachDetailAuthTab> {
             backgroundColor: Colors.red,
             onPressed: () {
 
-              contentData.setUsername(_auth.getUsername());
-              contentData.setName(_auth.getName());
-              contentData.setNotes(_auth.getNotes());
+              _resetContentData();
 
               setEdit(true, 0);
             },
@@ -264,6 +260,48 @@ class _CoachDetailAuthTab extends State<CoachDetailAuthTab> {
       borderSide: BorderSide(color: appDarkRedColor, width: 3.0),
     ),
   );
+
+  Future _apiUpdateAuth(String token, String id, ContentData contentData) async {
+
+    UserUpdateModel put = UserUpdateModel(
+      username: contentData.getUsername(),
+      name: contentData.getName(),
+      notes: contentData.getNotes()
+    );
+
+    await putUser(token, id, put).then((response) {
+
+      if (response.statusCode == 200) {
+
+        print("coach auth updated");
+
+      } else if (response.statusCode == 401) {
+        print("CoachDetailAuthTab: cod 401");
+        _navigationService.navigateToAndRemove(routes.loginPageTag);
+        return null;
+      } else {
+        _resetContentData();
+        print("CoachDetailAuthTab: " + response.statusCode.toString());
+
+        setState(() {
+
+        });
+        return null;
+      }
+
+    }).catchError((error) {
+      print("CoachDetailAuthTab: " + error);
+      return null;
+    });
+  }
+
+
+
+  _resetContentData() {
+    contentData.setUsername(_auth.getUsername());
+    contentData.setName(_auth.getName());
+    contentData.setNotes(_auth.getNotes());
+  }
 }
 
 class ContentData {

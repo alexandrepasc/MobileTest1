@@ -29,6 +29,7 @@ Future<http.Response> getPost(String id, String token) async{
 }
 
 Future<http.Response> createPost(AuthModelReq post) async{
+  print(apiUrl + authEndPoint);
   final response = await http.post(new Uri.http("$apiUrl", "$authEndPoint"),
       headers: getHeaderNoToken(),
       body: postToJson(post)
@@ -37,6 +38,7 @@ Future<http.Response> createPost(AuthModelReq post) async{
 }
 
 Future<http.Response> getCoordinators(String token) async{
+  print(apiUrl + userEndPoint + "/coordinators");
   final response = await http.get(new Uri.http("$apiUrl", "$userEndPoint/coordinators"),
     headers: getHeaderWithToken(token),
   );
@@ -44,6 +46,7 @@ Future<http.Response> getCoordinators(String token) async{
 }
 
 Future<http.Response> putUser(String token, String id, UserUpdateModel user) async{
+  print(apiUrl + userEndPoint + "/" + id);
   final response = await http.put(new Uri.http("$apiUrl", "$userEndPoint/$id"),
     headers: getHeaderWithToken(token),
     body: putUserToJson(user),
