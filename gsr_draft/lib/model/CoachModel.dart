@@ -11,6 +11,7 @@ class CoachModelRes {
   String username;
   String notes;
   List<String> roles;
+  String authId;
 
   CoachModelRes({
     this.id,
@@ -20,6 +21,7 @@ class CoachModelRes {
     this.username,
     this.notes,
     this.roles,
+    this.authId,
   });
 
   factory CoachModelRes.fromJson(Map<String, dynamic> json) => new CoachModelRes(
@@ -30,5 +32,28 @@ class CoachModelRes {
     username: json["username"],
     notes: json["notes"],
     roles: new List<String>.from(json["roles"]),
+    authId: json["authId"],
   );
+}
+
+//PUT: UPDATE COACH PROFILE
+String putToJson(CoachUpdateModel data) => json.encode(data.toJson());
+
+class CoachUpdateModel {
+
+  String firstName;
+  String lastName;
+  String description;
+
+  CoachUpdateModel({
+    this.firstName,
+    this.lastName,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() => {
+    "firstName": firstName,
+    "lastName": lastName,
+    "description": description,
+  };
 }

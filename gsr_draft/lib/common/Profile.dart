@@ -1,4 +1,6 @@
+import 'Auth.dart';
 import 'Class.dart';
+import 'Coach.dart';
 import 'Coordinator.dart';
 import 'Session.dart';
 import 'Student.dart';
@@ -20,6 +22,8 @@ class Profile {
   Class _class;
   Student _student;
   Coordinator _coordinator;
+  Coach _coach;
+  Auth _auth;
 
   Profile({
     this.token,
@@ -128,5 +132,21 @@ class Profile {
 
   setCoordinator(Coordinator _coordinator) {
     this._coordinator = _coordinator;
+  }
+
+  getCoach() {
+    return _coach;
+  }
+
+  setCoach(Coach _coach) {
+    this._coach = _coach;
+  }
+
+  getAuth() {
+    return _auth;
+  }
+
+  setAuth(Auth _auth) {
+    this._auth = _auth;
   }
 }

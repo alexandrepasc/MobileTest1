@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gsr_draft/model/CoachesModel.dart' as coachesModel;
 
 import '../../common/AdminDrawerListEnum.dart';
+import '../../common/Coach.dart';
 import '../../common/Constants.dart';
 import '../../common/Profile.dart';
+import '../../common/RoutePaths.dart' as routes;
 import '../../component/AdminCoachesList.dart';
 import '../../component/AdminDrawer.dart';
 import '../../component/AppBar.dart';
@@ -41,25 +43,44 @@ class _AdminCoachesListPage extends State<AdminCoachesListPage> {
 
     data2.coaches.forEach((coach) {
       rows.add(DataRow(cells: [
-        dataRowCell(coach.username),
-        dataRowCell(coach.firstName),
-        dataRowCell(coach.lastName),
-        dataRowCell(coach.description),
-        dataRowCell(coach.notes),
+        dataRowCell(coach.username, coach),
+        dataRowCell(coach.firstName, coach),
+        dataRowCell(coach.lastName, coach),
+        dataRowCell(coach.description, coach),
+        dataRowCell(coach.notes, coach),
       ]));
     });
 
     return rows;
   }
   
-  DataCell dataRowCell(String txt) => DataCell(
+  DataCell dataRowCell(String txt, CoachModelRes coach) => DataCell(
     Text(
       txt,
       style: TextStyle(
         fontSize: 17.0,
       ),
     ),
+    onTap: () {
+      _openCoachDetail(coach, widget.profile);
+    }
   );
+
+  _openCoachDetail(CoachModelRes coach, Profile profile) {
+
+    Coach _coach = new Coach(
+      coach.id,
+      coach.firstName,
+      coach.lastName,
+      coach.description,
+      coach.authId
+    );
+
+    Profile _profile = profile;
+    _profile.setCoach(_coach);
+
+    _navigationService.navigateTo(routes.coachDetailPageTag, arguments: _profile);
+  }
 
   Widget coachesTable(CoachesModelRes info) => DataTable(
     columns: [

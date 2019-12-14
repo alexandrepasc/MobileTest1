@@ -64,9 +64,9 @@ class _SessionDetailPage extends State<SessionDetailPage> {
                       SizedBox(height: bigRadius, width: bigRadius,),
                       _setLessonName(widget.profile.getSession().getName()),
                       SizedBox(width: bigRadius + bigRadius),
-                      _setCoachName(widget.profile.getCoachFirstName() + " " + widget.profile.getCoachLastName()),
+                      _setCoachName(widget.profile),
                       SizedBox(width: bigRadius + bigRadius),
-                      _setCoachName(new DateTime.fromMillisecondsSinceEpoch(widget.profile.getSession().getDate()).toString()),
+                      _setTitle3(new DateTime.fromMillisecondsSinceEpoch(widget.profile.getSession().getDate()).toString()),
                     ],
                   ),
                 ],
@@ -105,11 +105,24 @@ class _SessionDetailPage extends State<SessionDetailPage> {
     textAlign: TextAlign.center,
   );
 
-  Text _setCoachName(String _text) => Text(
+  Text _setCoachName(Profile profile) {
+
+    String text;
+    
+    if (profile.getCoachFirstName() != null) {
+      text = profile.getCoachFirstName() + " " + profile.getCoachLastName();
+    } else {
+      text = profile.getCoach().getFirstName() + " " + profile.getCoach().getLastName();
+    }
+
+    return _setTitle3(text);
+  }
+
+  Text _setTitle3(String _text) => Text(
     _text,
     style: TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 20.0
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0
     ),
     textAlign: TextAlign.center,
   );
