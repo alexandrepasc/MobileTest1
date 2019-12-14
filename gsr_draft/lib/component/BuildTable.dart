@@ -255,3 +255,36 @@ _openSessionDetail(SessionModel session, Profile profile) {
 
   _navigationService.navigateTo(routes.sessionDetailPageTag, arguments: _profile);
 }
+
+
+
+List<DataRow> buildRowsAdminClassesList(List<ClassModel> classes, Profile profile) {
+
+  List<DataRow> rows = new List();
+
+  classes.forEach((classModel) {
+    rows.add(
+        DataRow(
+            cells: [
+              _buildCellAdminClassesList(classModel.name, classModel, profile),
+              _buildCellAdminClassesList(classModel.description, classModel, profile),
+              _buildCellAdminClassesList(classModel.students.length.toString(), classModel, profile)
+            ]
+        )
+    );
+  });
+
+  return rows;
+}
+
+DataCell _buildCellAdminClassesList(String txt, ClassModel classModel, Profile profile) => DataCell(
+    Text(
+      txt,
+      style: TextStyle(
+        fontSize: 17.0,
+      ),
+    ),
+    onTap: () {
+      _openClassDetail(classModel, profile);
+    }
+);

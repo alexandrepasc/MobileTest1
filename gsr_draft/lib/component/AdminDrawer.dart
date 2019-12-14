@@ -211,11 +211,11 @@ Widget adminStudentsButtonSelected() => Card(
   color: appDarkRedColor,
 );
 
-Widget adminClassesButtonHandle(Profile _profile, AdminDrawerListEnum _selected, BuildContext context) {
-  if (_selected != AdminDrawerListEnum.classes) {
-    return adminClassesButton(_profile, context);
+Widget adminClassesButtonHandle(Profile profile, AdminDrawerListEnum selected, BuildContext context) {
+  if (selected != AdminDrawerListEnum.classes) {
+    return drawerUnselectedButton(classesTitle, context, routes.adminClassesListPageTag, profile);
   } else {
-    return adminClassesButtonSelected();
+    return drawerSelectedButton(classesTitle);
   }
 }
 

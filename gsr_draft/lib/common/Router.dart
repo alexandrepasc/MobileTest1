@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../common/Profile.dart';
 import '../common/RoutePaths.dart' as routes;
+import '../view/adminView/AdminClassesListPage.dart';
 import '../view/adminView/AdminCoachesListPage.dart';
 import '../view/adminView/AdminCoordinatorsListPage.dart';
 import '../view/adminView/AdminDashboardPage.dart';
@@ -30,6 +31,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => UserDashboard(profile: _profile,));
     case routes.splashPageTag:
       return MaterialPageRoute(builder: (context) => SplashPage());
+    case routes.adminClassesListPageTag:
+      Profile _profile = settings.arguments as Profile;
+      return MaterialPageRoute(builder: (context) => AdminClassesListPage(profile: _profile,));
     case routes.adminCoachesListPageTag:
       Profile _profile = settings.arguments as Profile;
       return MaterialPageRoute(builder: (context) => AdminCoachesListPage(profile: _profile,));
