@@ -25,3 +25,48 @@ class UserModelRes {
     roles: new List<String>.from(json["roles"]),
   );
 }
+
+//GET: USERS
+UsersModel getUsersFromJson(String str) => UsersModel.fromJson(json.decode(str));
+
+class UsersModel {
+
+  final List<UserModelRes> users;
+
+  UsersModel({
+    this.users,
+  });
+
+  factory UsersModel.fromJson(List<dynamic> json) {
+
+    List<UserModelRes> _users = new List<UserModelRes>();
+
+    _users = json.map((i) => UserModelRes.fromJson(i)).toList();
+
+    return new UsersModel(
+      users: _users,
+    );
+  }
+}
+
+//PUT: USER
+String putUserToJson(UserUpdateModel data) => json.encode(data);
+
+class UserUpdateModel {
+
+  final String username;
+  final String name;
+  final String notes;
+
+  UserUpdateModel({
+    this.username,
+    this.name,
+    this.notes
+  });
+
+  Map<String, dynamic> toJson() => {
+    "username": username,
+    "name": name,
+    "notes": notes
+  };
+}

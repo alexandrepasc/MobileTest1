@@ -1,5 +1,6 @@
 enum AdminDrawerListEnum {
   dashboard,
+  coordinators,
   coaches,
   students,
   classes,

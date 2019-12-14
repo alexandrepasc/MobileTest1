@@ -14,6 +14,7 @@ const loginButtonText = "Login";
 
 const dashboardTitle = "Dashboard";
 const coachesTitle = "Caoches list";
+const coordinatorTitle = "Coordinators List";
 const studentsTitle = "Students list";
 const classesTitle = "Classes list";
 const mySessionsTitle = "My Sessions";
