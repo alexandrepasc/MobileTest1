@@ -2,6 +2,7 @@ const String loginPageTag = 'Login Page';
 const String adminDashboardPageTag = 'Dashboard Page';
 const String userDashboardPageTag = 'User Dashboard Page';
 const String splashPageTag = 'Splash Page';
+const String adminClassesListPageTag = 'Admin Classes Page';
 const String adminCoachesListPageTag = 'Admin Coaches Page';
 const String adminCoordinatorsListPageTag = 'Admin Coordinators Page';
 const String adminStudentsListPageTag = 'Admin Students Page';
